@@ -169,6 +169,12 @@ class Player(BasePlayer):
     # Overall Feedback (Slider freundlich-feindselig)
     overall_fb_ff = models.IntegerField()
 
+    # Overall Feedback Half Time (Smilies)
+    overall_fb_s_ht = models.IntegerField()
+
+    # Overall Feedback Half Time (Slider freundlich-feindselig)
+    overall_fb_ff_ht = models.IntegerField()
+
     # Overall Feedback (Smilies)
     overall_fb_s = models.IntegerField()
 

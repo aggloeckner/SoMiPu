@@ -7317,6 +7317,88 @@ class CB2_SP(Page):
         else:
             return False
 
+class E_OFB_SP_HT(Page):
+    template_name = "SoMiPu/Overall_Feedback_SecondPlayer_Half_Time.html"
+    form_model = models.Player
+    smilyListWidth = 500
+    smilyImgUrl = "img/SoMiPu/Smiley-Skala.png"
+
+    smilyList = [
+        {"id": "cbs1"},
+        {"id": "cbs2"},
+        {"id": "cbs3"},
+        {"id": "cbs4"},
+        {"id": "cbs5"}
+    ]
+
+    def get_form_fields(self):
+
+        return ['overall_fb_s_ht', 'overall_fb_ff_ht']
+
+    def vars_for_template(self):
+
+        self.smilyList[0]['name'] = "overall_fb_s_ht"
+        self.smilyList[1]['name'] = "overall_fb_s_ht"
+        self.smilyList[2]['name'] = "overall_fb_s_ht"
+        self.smilyList[3]['name'] = "overall_fb_s_ht"
+        self.smilyList[4]['name'] = "overall_fb_s_ht"
+
+        return {
+            'smilyListWidth': self.smilyListWidth,
+            'smilyImgUrl': self.smilyImgUrl,
+            'smilyList': self.smilyList
+        }
+
+    def is_displayed(self):
+
+        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
+                and self.player.role() == 'SecondChooser':
+            return True
+        else:
+            return False
+
+
+class C_OFB_SP_HT(Page):
+    template_name = "SoMiPu/Overall_Feedback_SecondPlayer_Half_Time.html"
+    form_model = models.Player
+    smilyListWidth = 500
+    smilyImgUrl = "img/SoMiPu/Smiley-Skala.png"
+
+    smilyList = [
+        {"id": "cbs1"},
+        {"id": "cbs2"},
+        {"id": "cbs3"},
+        {"id": "cbs4"},
+        {"id": "cbs5"}
+    ]
+
+    def get_form_fields(self):
+
+        return ['overall_fb_s_ht', 'overall_fb_ff_ht']
+
+    def vars_for_template(self):
+
+        self.smilyList[0]['name'] = "overall_fb_s_ht"
+        self.smilyList[1]['name'] = "overall_fb_s_ht"
+        self.smilyList[2]['name'] = "overall_fb_s_ht"
+        self.smilyList[3]['name'] = "overall_fb_s_ht"
+        self.smilyList[4]['name'] = "overall_fb_s_ht"
+
+        return {
+            'smilyListWidth': self.smilyListWidth,
+            'smilyImgUrl': self.smilyImgUrl,
+            'smilyList': self.smilyList
+        }
+
+    def is_displayed(self):
+
+        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
+                and self.player.role() == 'SecondChooser':
+            return True
+        else:
+            return False
+
+
 class OFB_SP(Page):
     template_name = "SoMiPu/Overall_Feedback_SecondPlayer.html"
     form_model = models.Player
@@ -7351,43 +7433,19 @@ class OFB_SP(Page):
 
     def is_displayed(self):
 
-        if self.player.role() == 'SecondChooser' and self.player.__getattribute__('terminate_interaction') is False:
-            return True
-        else:
+        if self.player.role() == 'FirstChooser' or self.player.__getattribute__('terminate_interaction') is True:
             return False
+        else:
+            return True
 
-class OFB_ExSP(Page):
-    template_name = "SoMiPu/Exclusion_Overall_Feedback_SecondPlayer.html"
+
+class FB_RTF(Page):
+    template_name = "SoMiPu/Reason_To_Finish_SecondPlayer.html"
     form_model = models.Player
-    smilyListWidth = 500
-    smilyImgUrl = "img/SoMiPu/Smiley-Skala.png"
-
-    smilyList = [
-        {"id": "cbs1"},
-        {"id": "cbs2"},
-        {"id": "cbs3"},
-        {"id": "cbs4"},
-        {"id": "cbs5"}
-    ]
 
     def get_form_fields(self):
 
-        return ['overall_fb_s', 'overall_fb_ff', 'reason_to_finish']
-
-
-    def vars_for_template(self):
-
-        self.smilyList[0]['name'] =  "overall_fb_s"
-        self.smilyList[1]['name'] = "overall_fb_s"
-        self.smilyList[2]['name'] = "overall_fb_s"
-        self.smilyList[3]['name'] = "overall_fb_s"
-        self.smilyList[4]['name'] = "overall_fb_s"
-
-        return {
-            'smilyListWidth': self.smilyListWidth,
-            'smilyImgUrl': self.smilyImgUrl,
-            'smilyList': self.smilyList
-        }
+        return ['reason_to_finish']
 
     def is_displayed(self):
 
@@ -8494,19 +8552,6 @@ class E1_T12FI2(Page):
         else:
             return False
 
-class E2_T12FI (Page):
-    template_name = "SoMiPu/Feedback12_FinishInteraction_SecondPlayer.html"
-
-    def is_displayed(self):
-        if self.player.__getattribute__('terminate_interaction') is False:
-            return False
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
 class FB13(Page):
     form_model = models.Player
     template_name = "SoMiPu/Experimental_Feedback_FirstPlayer.html"
@@ -9591,6 +9636,7 @@ page_sequence = [
     E1_Example,
     E2_Decision,
     E2_Example,
+    WaitPe,
     T1_EFP,
     WaitPe,
     T1_ESP,
@@ -9660,12 +9706,13 @@ page_sequence = [
     T12_EFP,
     WaitPe,
     T12_ESP,
+    E_OFB_SP_HT,
     T12_ExTh,
+    FB_RTF,
     WaitPe,
     E1_T12CI,
     E1_T12FI1,
     E1_T12FI2,
-    E2_T12FI,
     WaitPe,
     T13_EFP,
     WaitPe,
@@ -9790,6 +9837,7 @@ page_sequence = [
     T12_CFP,
     WaitPc,
     T12_CSP,
+    C_OFB_SP_HT,
     WaitPc,
     T13_CFP,
     WaitPc,
@@ -9839,7 +9887,6 @@ page_sequence = [
     WaitPc,
     T24_CSP,
     OFB_SP,
-    OFB_ExSP,
     CB1_AP,
     CB2_FP,
     CB2_SP,

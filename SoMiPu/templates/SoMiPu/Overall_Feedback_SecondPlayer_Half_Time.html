@@ -1,0 +1,61 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+    <!--Overall Feedback - Second Chooser - Experimental- und Kontrollgruppe-->
+
+    <p>
+
+    Vielen Dank! Damit haben Sie die Hälfte der Studie absolviert. Bitte beurteilen Sie <strong>über alle bisherigen
+    Entscheidungen hinweg ...</strong>
+    <br><br><br>
+    <strong>... wie freundlich vs. feindselig Sie das bisherige Verhalten Ihres Gegenübers empfinden</strong>
+
+    <br><br><br><br>
+
+    <div id="vas_ff" align="center">
+
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
+
+
+     <script type="text/javascript">
+    scales.scale('overall_fb_ff_ht', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
+    ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['freundlich&nbsp;', '&nbsp;feindselig']);
+    </script>
+
+        <div id="vas_fb_ff" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+            <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+
+        </div>
+    </div>
+    <br><br><br><br>
+
+    <strong>... wie Sie das bisherige Verhalten Ihres Gegenübers insgesamt bewerten </strong>
+
+    <br><br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Smilies.html" %}
+
+    </div>
+
+    <br><br>
+
+    Um fortzufahren, wählen Sie bitte "weiter".
+    <br><br></p>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/jquery.visible.js' %}"></script>
+        <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+    <script type="text/javascript">
+        scales.init('value');
+    </script>
+
+{% endblock %}

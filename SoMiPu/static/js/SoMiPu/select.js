@@ -190,6 +190,28 @@ function checkSliderFF() {
     return true;
 }
 
+function checkSliderFF_half() {
+
+    // freundlich-feinselig half time
+    var ff_slider = $("input[name$='_fb_ff_ht']");
+    if (ff_slider.length == 1) {
+        if ($(ff_slider).val() == '-9') {
+            if ($('#vas_ff').visible() == false) {
+                location.href = "#vas_ff";
+            }
+            $('#vas_fb_ff').show();
+            $('#cross0div').mouseup(function() {
+                $('#vas_fb_ff').hide();
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    return true;
+}
+
 function checkSliderFB() {
 
     // fortsetzen-beenden
@@ -245,7 +267,7 @@ function checkExcThreat() {
 
 $(document).ready(function() {
 	 $('form').on('submit', function() {
-	        var retval = checkChoice() && checkSliderFF() && checkSmilies() && checkSliderFB() && checkExcThreat();
+	        var retval = checkChoice() && checkSliderFF() && checkSmilies() && checkSliderFB() && checkSliderFF_half() && checkExcThreat();
             return retval;
      });
 });

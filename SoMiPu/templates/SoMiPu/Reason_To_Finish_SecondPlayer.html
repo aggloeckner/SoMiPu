@@ -1,0 +1,58 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+<!--Diese Seite wird dem Second Chooser der Experimentalgruppe nur dann angezeigt, wenn er die Interaktion beendet hat.-->
+
+
+    <style type="text/css">
+        label {
+            font-weight: normal;
+            width: 100%;
+        }
+
+        .content-box {
+            width: 50%;
+        }
+
+        textarea {
+            max-width: 100%;
+            min-width: 160px;
+            min-height: 20px;
+            padding: 3px 5px;
+            border-radius: 5px;
+        }
+
+        .right {
+            float: right;
+        }
+    </style>
+
+    <p>
+    <strong>Sie haben sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Uns interessiert, welche Gründe
+    Sie hierzu bewogen haben? Das nachfolgende Textfeld bietet Ihnen die Gelegenheit uns diese mitzuteilen.</strong>
+    </p><br><br><br>
+
+    <div align="center">
+
+    <textarea rows="4" cols="100" name="reason_to_finish">
+    </textarea>
+
+    </div>
+
+    <br><br><br>
+
+    <p>
+    Vielen Dank für Ihre bisherigen Angaben! Damit ist die Bearbeitung der Entscheidungsaufgabe abgeschlossen. <br><br>
+    Im Folgenden bitten wir Sie <strong>noch einige wenige Fragen </strong>zu Ihrer Person zu <strong> beantworten</strong>.
+    <br><br>
+
+    Wählen Sie bitte "weiter", um die Fragen zu beantworten.
+    <br><br>
+    </p>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+
+{% endblock %}
