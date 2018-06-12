@@ -9630,7 +9630,7 @@ class E2_LastPageCI (Page):
 
 page_sequence = [
     GroupingWaitPage,
-    A_Welcome,
+    #A_Welcome,
     A_Informed_consent,
     E1_Decision,
     E1_Example,

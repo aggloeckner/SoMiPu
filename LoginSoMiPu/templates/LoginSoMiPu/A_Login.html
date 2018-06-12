@@ -6,25 +6,106 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Ihre DecisionLab-ID
-    </h2>
-    {{ form.decision_lab_id.errors }}
-    <br><br><br><br>
+
+    <style type="text/css">
+        label {
+            font-weight: normal;
+            width: 80%;
+        }
+
+        .content-box {
+            width: 75%;
+        }
+
+        select, input, textarea {
+            max-width: 100%;
+            width: 30px;
+            min-height: 20px;
+            padding: 3px 5px;
+            border-radius: 5px;
+        }
+
+        .right {
+            float: right;
+        }
+    </style>
+
+    <h3>Ihre Code-Nummer
+    </h3>
+    <br>
     <p>
-    Nach Ihrer Registrierung im Hagen DecisionLab haben Sie <strong>Ihre persönliche DecisionLab-ID</strong> per Mail
-    erhalten.
-    Bevor es losgeht, geben Sie diese 7-stellige Nummer bitte an.
-    Bitte beachten Sie: Wenn Sie die ID dreimal falsch angeben, führt dies automatisch zum Abbruch der
-    Studie. In diesem Fall erhalten Sie keine Vergütung.
-    <br><br>Ihre persönliche DecisionLab-ID: <input name="decision_lab_id" id="decision_lab_id" required/>
+    Ihr Fragebogen wird mit einer Code-Nummer versehen, die Sie selbst erstellen.Diese sogenannte "Pseudonymisierung"
+    ist eine anerkannte Methode, um die Identifizierung von einzelnen Teilnehmenden zu verhindern, Ihre Datensätze aber
+    trotzdem miteinander verknüpfen zu können.<br><br>
+    <strong>Tragen Sie bitte den Code in die nachfolgenden Kästchen ein. Beachten Sie dabei folgende Hinweise:</strong>
+    </p>
     <br><br>
-        <div style="display:{{ displayError }};color:red;font-weight:bold;">
-            {{ loginError }}
-        </div>
+    <div class="content-box">
+    <p>
+    <label>
+    Der letzte Buchstabe Ihres Nachnamens (z.B. bei Müller ein "R")
+    </label>
+    <input id="family_name" type="text" name="family_name" class="right"
+           pattern="[A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]{1}" maxlength="1" required/>
+    </p>
+    <br>
+
+    <p>
+    <label>
+    Erster Buchstabe Ihres Vornamens (z.B. bei Hans ein "H")
+    </label>
+    <input id="first_name" type="text" name="first_name" class="right"
+           pattern="[A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]{1}" maxlength="1" required/>
+    </p>
+    <br>
+
+    <p>
+    <label>
+    Zweiter Buchstabe des Monats in dem Sie geboren sind (z.B. bei Mai ein "A")
+    </label>
+    <input id="birth_month" type="text" name="birth_month" class="right"
+           pattern="[A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]{1}" maxlength="1" required/>
+    </p>
+    <br>
+
+    <p>
+    <label>
+    Erster Buchstabe Ihres Geburtsorts (z.B. bei Bonn ein "B")
+    </label>
+    <input id="birthplace" type="text" name="birthplace" class="right"
+           pattern="[A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]{1}" maxlength="1" required/>
+    </p>
+    <br>
+
+    <p>
+    <label>
+    Erster Buchstabe Ihres Sternzeichens (z.B. bei Löwe ein "L")
+    </label>
+    <input id="asterisk" type="text" name="asterisk" class="right"
+           pattern="[A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]{1}" maxlength="1" required/>
+    </p>
+    <br>
+
+    <p>
+    <label>
+    Die letzte Ziffer Ihres vollständigen Geburtsdatums (z.B. für den 21.02.1975 eine "5")
+    </label>
+    <input id="birth_number" type="number" name="birth_number" class="right" min="0" max="9" required/>
+    <p/>
+    </div>
     <br><br>
+
+    <input type="hidden" name="decision_lab_id"/>
+
     Um fortzufahren, wählen Sie bitte "weiter".
     </p>
-    {% include "LoginSoMiPu/Bye.html" %}
+    {% include "SoMiPu/Bye.html" %}
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/login.js' %}"></script>
+    {% endblock %}
+
 
 {% endblock %}
