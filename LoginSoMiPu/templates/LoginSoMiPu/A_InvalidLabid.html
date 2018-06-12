@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load static %}
+
+{% block title %}
+   Login
+{% endblock %}
+
+{% block content %}
+    <h2>Ihre DecisionLab-ID
+    </h2>
+
+    <div id="goodby" style="float:left;width:100%;border:solid 5px;border-color:red;display:block">
+    <div style="float:left;padding:20px;">
+        <img src="{% get_static_prefix %}img/SoMiPu/Ausrufezeichen.png"/>
+    </div>
+    <div style="float:left;padding:20px;">
+        <br>
+        Sie haben Ihre DecisionLab-ID zu oft falsch eigegeben.<br>
+        Daher ist leider keine Teilnahme möglich.<br>
+        Wir bitten um Ihr Verständnis.
+        <br>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

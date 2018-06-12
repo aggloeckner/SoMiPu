@@ -105,22 +105,22 @@ SESSION_CONFIGS = [
     {
         'name': 'SoMiPu',
         'display_name': 'SoMiPu_balanced',
-        'num_demo_participants': 250,
-        'app_sequence': ['SoMiPu'],
+        'num_demo_participants': 200,
+        'app_sequence': ['LoginSoMiPu', 'SoMiPu'],
         'treatment': ''
     },
     {
         'name': 'Experimental_group',
         'display_name': 'SoMiPu_experimental',
-        'num_demo_participants': 250,
-        'app_sequence': ['SoMiPu'],
+        'num_demo_participants': 200,
+        'app_sequence': ['LoginSoMiPu', 'SoMiPu'],
         'treatment': 'experimental',
     },
     {
         'name': 'Control_group',
         'display_name': 'SoMiPu_control',
-        'num_demo_participants': 250,
-        'app_sequence': ['SoMiPu'],
+        'num_demo_participants': 200,
+        'app_sequence': ['LoginSoMiPu', 'SoMiPu'],
         'treatment': 'control'
     }
 ]

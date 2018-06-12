@@ -18,7 +18,7 @@ class A_Login(Page):
             display = 'block'
 
         return {'loginError': self.player.participant.vars['loginError'],
-                'displayError': display }
+                'displayError': display}
 
     def DecisionLabId_error_message(self, value):
 
@@ -125,7 +125,12 @@ class GroupingWaitPage(WaitPage):
 
             self.session.vars['treatment'] = treatment
             waiting_players[0].treatment = treatment
+            loginId = waiting_players[0].participant.vars["decision_lab_id"]
+            waiting_players[0].decision_lab_id = loginId
+
             waiting_players[1].treatment = treatment
+            loginId = waiting_players[1].participant.vars["decision_lab_id"]
+            waiting_players[1].decision_lab_id = loginId
 
             return [waiting_players[0], waiting_players[1]]
 
@@ -9581,10 +9586,6 @@ class E2_LastPageCI (Page):
 page_sequence = [
     GroupingWaitPage,
     A_Welcome,
-    A_Login,
-    A_Login,
-    A_Login,
-    A_InvalidLabid,
     A_Informed_consent,
     E1_Decision,
     E1_Example,
