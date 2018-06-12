@@ -1,0 +1,48 @@
+{% load staticfiles %}
+{% load static %}
+
+    <div id="smilies">
+
+        <table style="border:0;">
+            <tr>
+                <td colspan="5">
+                    <img style="padding-left:16px;padding-right:17px" src="{% get_static_prefix %}{{ smilyImgUrl }}" width="{{ smilyListWidth }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <input type="checkbox" id="{{ smilyList.0.id }}" name="{{ smilyList.0.name }}" value="1"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ smilyList.1.id }}" name="{{ smilyList.1.name }}" value="2"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ smilyList.2.id }}" name="{{ smilyList.2.name }}" value="3"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ smilyList.3.id }}" name="{{ smilyList.3.name }}" value="4"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ smilyList.4.id }}" name="{{ smilyList.4.name }}" value="5"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" style="height:40px">
+                    <div id="smilyMsg" style="display:none; background-color:Yellow; text-align:center">
+                        <p>Bitte wählen Sie einen der Smilies aus.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            try {
+	            showSmily("smilies", "{{ smilyFeedback }}");
+	        } catch (e) {}
+	    });
+
+    </script>

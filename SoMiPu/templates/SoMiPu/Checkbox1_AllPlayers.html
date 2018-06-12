@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Fragen zur Teilnahme
+{% endblock %}
+
+{% block content %}
+
+    <!--CB = Checkbox; 'Qualitätskontrolle' - Alle Spieler nach den Trials-->
+
+    <br>
+    <p>
+    Da die in dieser Studie generierten Daten für wissenschaftliche Zwecke genutzt werden sollen, ist die
+    Frage der Datenqualität für uns von besonderem Interesse. Daher bitten wir Sie um eine ehrliche Auskunft darüber,
+    wie gewissenhaft Sie diese Studie bearbeitet haben. Nur wenn eine gute Qualität sichergestellt ist, können wir
+    die Daten in die Auswertung aufnehmen. Deswegen möchten wir Sie bitten, die folgenden Fragen möglichst offen und
+    ehrlich zu beantworten. Ihre Antworten haben keinerlei Auswirkungen auf Ihre Vergütung in dieser Studie.<br><br>
+
+    <span style="font-style: italic">Markieren Sie bitte die Aussagen, denen Sie zustimmen.</span><br><br>
+
+    Ich habe...<br><br>
+
+    ... nur zum Spaß teilgenommen und mich nicht ernsthaft auf die Studie eingelassen. <input type="checkbox" name = "overall_fb_cb1"
+    value = "ja">
+    <br><br>
+
+    ... alle Instruktionen gründlich gelesen und befolgt. <input type="checkbox" name = "overall_fb_cb2" value = "ja">
+    <br><br>
+
+    ... mein Verhalten so angepasst, dass ich möglichst gut bzw. positiv erscheine. <input type="checkbox" name = "overall_fb_cb3"
+    value = "ja">
+    <br><br>
+
+    ... Bearbeitungshinweise eher überflogen oder ignoriert. <input type="checkbox" name = "overall_fb_cb4" value = "ja">
+        <br><br>
+
+    ... mich auch dann authentisch verhalten, wenn mir dies unangenehm war. <input type="checkbox" name = "overall_fb_cb5"
+    value = "ja"><br><br>
+
+    ... bereits vorher an dieser Studie teilgenommen. <input type="checkbox" name = "overall_fb_cb6" value = "ja"><br><br>
+
+    Wenn Sie alle Fragen beantwortet haben, wählen Sie bitte "weiter".
+
+    </p><br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load staticfiles %}
+{% load static %}
+
+    <div id="choiceLeft">
+
+        <table style="border:0;">
+            <tr >
+                <td width="{{ choiceList.0.columnWidth }}" align="center">
+                    <img checkId="img0" src="{% get_static_prefix %}{{ choiceList.0.url }}" width="{{ choiceList.0.width }}"/>
+                </td>
+                <td width="{{ choiceList.1.columnWidth }}" align="center">
+                    <img checkId="img1" src="{% get_static_prefix %}{{ choiceList.1.url }}" width="{{ choiceList.1.width }}"/>
+                </td>
+                <td width="{{ choiceList.2.columnWidth }}" align="center">
+                    <img checkId="img2" src="{% get_static_prefix %}{{ choiceList.2.url }}" width="{{ choiceList.2.width }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.0.id }}"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.1.id }}"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.2.id }}"/>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+	        showChoiceLeft("choiceLeft", "{{ firstChoice }}", "{{ secondChoice }}");
+	    });
+
+    </script>

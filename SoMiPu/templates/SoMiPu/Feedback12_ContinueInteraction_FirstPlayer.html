@@ -1,0 +1,48 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+    <!--Diese Seite wird dem First Chooser nur dann angezeigt, wenn die andere Person die Interaktion in Trial 12 fortsetzt.-->
+
+    <p>Die andere Person hat nach Ihnen aus den verbliebenen Objekten folgendes gewählt.
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/ChoiceLeft.html" %}
+
+    </div>
+
+    <br><br><br>
+
+    Hier ist das Feedback der Person zu Ihrer Wahlentscheidung!
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Smilies.html" %}
+
+    </div>
+
+    <br>
+
+
+    <div align="center">
+    <h4>Die andere Person hat sich dafür entschieden die Interaktion fortzusetzen.</h4>
+    <br><br><br>
+    </div>
+
+    Um fortzufahren, wählen Sie bitte "weiter".
+
+    <br>
+    </p>
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+   Login
+{% endblock %}
+
+{% block content %}
+    <h2>Ihre DecisionLab-ID
+    </h2>
+    {{ form.decision_lab_id.errors }}
+    <br><br><br><br>
+    <p>
+    Nach Ihrer Registrierung im Hagen DecisionLab haben Sie <strong>Ihre persönliche DecisionLab-ID</strong> per Mail
+    erhalten.
+    Bevor es losgeht, geben Sie diese 7-stellige Nummer bitte an.
+    Bitte beachten Sie: Wenn Sie die ID dreimal falsch angeben, führt dies automatisch zum Abbruch der
+    Studie. In diesem Fall erhalten Sie keine Vergütung.
+    <br><br>Ihre persönliche DecisionLab-ID: <input name="decision_lab_id" id="decision_lab_id" required/>
+    <br><br>
+        <div style="display:{{ displayError }};color:red;font-weight:bold;">
+            {{ loginError }}
+        </div>
+    <br><br>
+    Um fortzufahren, wählen Sie bitte "weiter".
+    </p>
+    {% include "SoMiPu/Bye.html" %}
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+{% endblock %}

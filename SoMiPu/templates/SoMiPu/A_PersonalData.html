@@ -1,0 +1,87 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Angaben zu Ihrer Person
+{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        label {
+            font-weight: normal;
+            width: 100%;
+        }
+
+        .content-box {
+            width: 50%;
+        }
+
+        select, input, textarea {
+            max-width: 100%;
+            min-width: 160px;
+            min-height: 20px;
+            padding: 3px 5px;
+            border-radius: 5px;
+        }
+
+        .right {
+            float: right;
+        }
+    </style>
+    <div class="content-box">
+        <p>Zuletzt möchten wir Sie noch um einige Angaben zu Ihrer Person bitten.</p>
+        <br><br>
+        <label>
+            Ihr Geschlecht:
+            <select id="part_sex" class="right" name="participant_sex">
+                <option value="0">Bitte wählen Sie</option>
+                <option value="1">weiblich</option>
+                <option value="2">männlich</option>
+                <option value="3">divers</option>
+            </select>
+        </label>
+        <br>
+        <div id="sexMsg" style="display:none; background-color:Yellow; text-align:center">
+            <p>Bitte wählen Sie!</p>
+        </div>
+
+        <br>
+        <label>
+            Ihr Alter:
+            <input id="part_age" type="number" name="participant_age" class="right"/>
+        </label>
+        <br>
+        <div id="ageMsg" style="display:none; background-color:Yellow; text-align:center">
+            <p>Bitte geben Sie Ihr Alter ein.</p>
+        </div>
+        <br>
+
+        <label>Ihre Deutschkenntnisse:
+            <select id="part_lang" class="right" name="participant_lang_skills">
+                <option value="0">Bitte wählen Sie</option>
+                <option value="1">Muttersprache</option>
+                <option value="2">sehr gut</option>
+                <option value="3">gut</option>
+                <option value="4">befriedigend</option>
+                <option value="5">ausreichend</option>
+                <option value="6">mangelhaft</option>
+            </select>
+        </label>
+        <br>
+        <div id="langMsg" style="display:none; background-color:Yellow; text-align:center">
+            <p>Bitte wählen Sie!</p>
+        </div>
+        <br><br>
+        <p>Wenn Sie alle Fragen beantwortet haben, wählen Sie bitte "weiter".</p>
+        <br>
+        <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    </div>
+
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/jquery.visible.js' %}"></script>
+        <script src="{% static 'js/SoMiPu/checkData.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

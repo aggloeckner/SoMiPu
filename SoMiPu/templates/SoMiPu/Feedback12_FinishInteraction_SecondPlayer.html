@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+    <!--Diese Seite wird dem Second Chooser nur dann angezeigt, wenn er die Interaktion beendet hat.-->
+
+    <p>
+    Sie haben sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Vielen Dank für Ihre bisherigen
+    Angaben! Damit ist die Bearbeitung der Entscheidungsaufgabe abgeschlossen.
+    <br><br>
+    Im Folgenden bitten wir Sie <strong>noch einige wenige Fragen </strong>zu Ihrer Person zu <strong> beantworten</strong>.
+    <br><br>
+
+    Wählen Sie bitte "weiter", um die Fragen zu beantworten.
+
+    </p><br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+{% endblock %}

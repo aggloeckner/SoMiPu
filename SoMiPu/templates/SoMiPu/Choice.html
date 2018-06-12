@@ -1,0 +1,47 @@
+{% load staticfiles %}
+{% load static %}
+
+    <div id="choice">
+
+        <table style="border:0;">
+            <tr >
+                <td width="{{ choiceList.0.columnWidth }}" align="center">
+                    <img checkId="{{ choiceList.0.id }}" src="{% get_static_prefix %}{{ choiceList.0.url }}" width="{{ choiceList.0.width }}"/>
+                </td>
+                <td width="{{ choiceList.1.columnWidth }}" align="center">
+                    <img checkId="{{ choiceList.1.id }}" src="{% get_static_prefix %}{{ choiceList.1.url }}" width="{{ choiceList.1.width }}"/>
+                </td>
+                <td width="{{ choiceList.2.columnWidth }}" align="center">
+                    <img checkId="{{ choiceList.2.id }}" src="{% get_static_prefix %}{{ choiceList.2.url }}" width="{{ choiceList.2.width }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.0.id }}" name="{{ choiceList.0.name }}" value="{{ choiceList.0.value }}"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.1.id }}" name="{{ choiceList.1.name }}" value="{{ choiceList.1.value }}"/>
+                </td>
+                <td align="center">
+                    <input type="checkbox" id="{{ choiceList.2.id }}" name="{{ choiceList.2.name }}" value="{{ choiceList.2.value }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="height:40px">
+                    <div id="choiceMsg" style="display:none; background-color:Yellow; text-align:center">
+                        <p>Bitte wählen Sie eines der drei Objekte aus.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+     </div>
+
+    <input type="hidden" name="firstChoice" value=""/>
+    <input type="hidden" name="secondChoice" value=""/>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+	        showChoice("choice", "{{ firstChoice }}");
+	    });
+
+    </script>

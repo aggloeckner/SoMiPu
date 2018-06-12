@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+    <!--Experimental_SecondChooser_Assessment_Example-->
+    <!--VAS-Generator-->
+
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
+
+    <p>
+    Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
+    empfinden</strong>. Hierzu markieren Sie mit einem Mausklick die Skala mit einem Kreuzchen an der Stelle, die Ihrer
+    Empfindung am besten entspricht.
+    <br><br><br>
+
+    <script type="text/javascript">
+    scales.scale('{{ trial }}_fb_ff', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 20],
+    ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['freundlich&nbsp;', '&nbsp;feindselig']);
+    </script>
+
+    <br><br><br><br>
+
+   <!--Smiley-Scale-->
+
+    Mit der nachfolgenden Smiley-Skala haben Sie die Möglichkeit Ihrem Gegenüber mitzuteilen, wie Sie sein Verhalten
+    bewerten.
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Smilies.html" %}
+
+    </div>
+
+    {% block scripts %}
+    <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+    <br><br><br><br>
+
+    Um fortzufahren, wählen Sie bitte "weiter".
+    <br><br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    <script type="text/javascript">
+        scales.init('value');
+    </script>
+{% endblock %}

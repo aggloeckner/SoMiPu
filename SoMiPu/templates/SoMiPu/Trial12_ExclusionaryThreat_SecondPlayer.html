@@ -1,0 +1,53 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+     <!--Experimentalgruppe - Trial 12 - Exclusionary Threat - Second Chooser-->
+
+     <p>Sie haben an dieser Stelle die Gelegenheit <strong>die Interaktion fortzusetzen oder zu beenden.</strong>
+     Wenn Sie die <strong>Interaktion abbrechen</strong>, können Sie damit der anderen Person die Möglichkeit nehmen,
+     weiter zwischen Gegenständen auszuwählen. Sie haben selbst dann aber auch keine Möglichkeit mehr, weitere Gegenstände
+     zu wählen. Sie können sich auch dafür entscheiden, die <strong>Interaktion fortzusetzen</strong>, dann wird die andere
+     Person zuerst und Sie nach Ihr auswählen können.
+     <br><br>
+     <strong>Wie entscheiden Sie sich?</strong>
+
+     </p><br><br><br>
+
+    <div align="center">
+        <div style="width: 50%;  float: left;">
+        <label style="text-align: center; width: 100%;">
+            <input id="rbTerminate" name="terminate_interaction" type="radio" value = "True"/>
+        <span style="display: block;">Interaktion beenden</span>
+
+        </label>
+        </div>
+
+        <div style="width: 50%;  float: left;">
+        <label style="text-align: center; width: 100%;">
+            <input id="rbGoon" name="terminate_interaction" type="radio" value = "False"/>
+        <span style="display: block;">Weiter wählen lassen</span>
+
+        </label>
+        </div>
+        <br><br><br>
+        <div id="termMsg" align="center" style="display:none; background-color:Yellow; text-align:center; width:100%;">
+            Bitte wählen Sie!
+        </div>
+    </div>
+
+    <br><br><br><br>
+
+    <p>
+    Um fortzufahren, wählen Sie bitte "weiter".
+    </p>
+    <br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/excthreat.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

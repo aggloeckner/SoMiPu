@@ -1,0 +1,78 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+     <!--Experimentalgruppe - Trial 1 - Second Chooser-->
+
+    <p> <p>Die Person vor Ihnen hat folgende Wahlentscheidung getroffen.
+    Welches der verbliebenen Objekte würden Sie <strong>im Anschluss wählen?</strong>
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Choice.html" %}
+
+    </div>
+
+    <br><br>
+
+    <div align="center">
+
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
+
+    </div><p>
+
+    <br><br><br><br>
+
+    Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
+    empfinden</strong>. Hierzu markieren Sie mit einem Mausklick die Skala mit einem Kreuzchen an der Stelle, die Ihrer
+    Empfindung am besten entspricht.
+
+    <br><br><br>
+
+    <div id="vas_ff" align="center">
+
+    <script type="text/javascript">
+    scales.scale('{{ trial }}_fb_ff', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 20],
+    ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['freundlich&nbsp;', '&nbsp;feindselig']);
+    </script>
+
+        <div id="vas_fb_ff" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+            <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+        </div>
+    </div>
+
+    <br><br><br><br>
+
+    Wie bewerten Sie das Verhalten Ihres Gegenübers nach seiner Entscheidung?
+
+    <br><br><br>
+
+    <input type="hidden" name="{{ trial }}_seq" value="{{ sequence }}"/>
+
+    <div align="center">
+
+    {% include "SoMiPu/Smilies.html" %}
+
+    </div>
+
+    <br><br><br>
+        
+    Um fortzufahren, wählen Sie bitte "weiter".
+    <br></p>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+		<script src="{% static 'js/SoMiPu/jquery.visible.js' %}"></script>
+        <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+    <script type="text/javascript">
+        scales.init('value');
+    </script>
+
+{% endblock %}
