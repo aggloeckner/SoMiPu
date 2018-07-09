@@ -106,7 +106,8 @@ SESSION_CONFIGS = [
         'name': 'SoMiPu',
         'display_name': 'SoMiPu_balanced',
         'num_demo_participants': 200,
-        'app_sequence': ['LoginSoMiPu', 'SoMiPu'],
+        'app_sequence': [ 'SoMiPu_Login', 
+                          'SoMiPu'],
         'treatment': ''
     }
 ]
