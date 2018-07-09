@@ -5,6 +5,7 @@ from .models import Constants
 from .trialList import TrialList
 
 from string import digits
+import random
 
 class GroupingWaitPage(WaitPage):
     group_by_arrival_time = True
@@ -14,27 +15,27 @@ class GroupingWaitPage(WaitPage):
 
             treatment = self.session.config['treatment']
             if treatment != 'experimental' and treatment != 'control':
-                treatment = self.session.vars['treatment']
-                if treatment == 'experimental':
-                    treatment = 'control'
-                else:
-                    treatment = 'experimental'
+                treatment = random.choice(["experimental", "control"])
 
-            self.session.vars['treatment'] = treatment
-            waiting_players[0].treatment = treatment
-            loginId = waiting_players[0].participant.vars["decision_lab_id"]
-            waiting_players[0].decision_lab_id = loginId
+            p1 = waiting_players[0]
+            p2 = waiting_players[1]
 
-            waiting_players[1].treatment = treatment
-            loginId = waiting_players[1].participant.vars["decision_lab_id"]
-            waiting_players[1].decision_lab_id = loginId
+            p1.treatment = p2.treatment = treatment
+            p1.participant.vars["treatment"] = p2.participant.vars["treatment"] = treatment
+            p1.partner = p1.participant.vars["partner"] = p2.participant.code
+            p2.partner = p2.participant.vars["partner"] = p1.participant.code
 
-            return [waiting_players[0], waiting_players[1]]
+            p1.randomize_trials()
+
+            return [p1, p2]
 
     # template_name = 'GroupingWaitPage.html'
     def vars_for_template(self):
         return {'body_text': "Sobald die nächste Person eintrifft, geht es los.",
                 'title_text': "Bitte warten Sie."}
+
+    def is_displayed(self):
+        return self.round_number == 1
 
 
 class WaitPe(WaitPage):

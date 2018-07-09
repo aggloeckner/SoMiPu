@@ -4,6 +4,7 @@ from otree.api import (
 
 import itertools
 import random
+import csv
 
 
 author = 'Carola Ortlepp-Appl'
@@ -22,9 +23,13 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
+        with open("Trials.csv") as f:
+            rdr = csv.reader(f, delimiter = ";")
+            l = [r for r in rdr]
+            d = [dict(zip(l[0],r)) for r in l[1:]]
+            trials = dict( [(int(r["Trial"]),r) for r in d] )
+            self.session.vars["SoMiPu_Trials"] = trials
 
-        for group in self.get_groups():
-            self.session.vars['treatment'] = 'control'
 
 
 class Group(BaseGroup):
@@ -35,6 +40,9 @@ class Player(BasePlayer):
 
     # treatment des Players
     treatment = models.CharField()
+
+    # id des Partners
+    partner = models.CharField()
 
 
     # id der vom FirstChooser gewaehlten Checkbox
@@ -223,3 +231,11 @@ class Player(BasePlayer):
             return 'FirstChooser'
         else:
             return 'SecondChooser'
+
+    def randomize_trials(self):
+        trials = self.session.vars["SoMiPu_Trials"].keys()
+        tids = list( trials )
+        random.shuffle( tids )
+        self.participant.vars["SoMiPu_Order"]     = tids
+        self.participant.vars["SoMiPu_CompFirst"] = [random.randrange(2) for _ in tids]
+        self.participant.vars["SoMiPu_Idx"]       = 0
