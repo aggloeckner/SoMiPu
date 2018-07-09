@@ -16,7 +16,6 @@ class Constants(BaseConstants):
     num_rounds = 1
 
 
-
 class Subsession(BaseSubsession):
     pass
 
@@ -26,7 +25,5 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-
     # id des Teilnehmers
     decision_lab_id = models.CharField()
-

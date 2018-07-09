@@ -36,8 +36,6 @@ class Player(BasePlayer):
     # treatment des Players
     treatment = models.CharField()
 
-    # id des Teilnehmers
-    decision_lab_id = models.CharField()
 
     # id der vom FirstChooser gewaehlten Checkbox
     firstChoice = models.CharField()
@@ -219,8 +217,6 @@ class Player(BasePlayer):
     )
 
     participant_age = models.IntegerField(min=18, max=99)
-
-
 
     def role(self):
         if self.id_in_group == 1:
