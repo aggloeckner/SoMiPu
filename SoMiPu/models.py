@@ -44,6 +44,9 @@ class Player(BasePlayer):
     # id des Partners
     partner = models.CharField()
 
+    # Für das Beispiel
+    example_choice = models.CharField()
+
 
     # id der vom FirstChooser gewaehlten Checkbox
     firstChoice = models.CharField()
@@ -232,6 +235,21 @@ class Player(BasePlayer):
         else:
             return 'SecondChooser'
 
+    def is_first(self):
+        return self.role() == "FirstChooser"
+
+    def is_second(self):
+        return self.role() == "SecondChooser"
+
+    def condition(self):
+        return self.participant.vars["treatment"]
+
+    def is_experimental(self):
+        return self.condition() == "experimental"
+
+    def is_control(self):
+        return self.condition() == "control"
+
     def randomize_trials(self):
         trials = self.session.vars["SoMiPu_Trials"].keys()
         tids = list( trials )
@@ -239,3 +257,28 @@ class Player(BasePlayer):
         self.participant.vars["SoMiPu_Order"]     = tids
         self.participant.vars["SoMiPu_CompFirst"] = [random.randrange(2) for _ in tids]
         self.participant.vars["SoMiPu_Idx"]       = 0
+
+    def check_consistency(self):
+        mycode = self.participant.code
+        fpcode = self.group.get_player_by_role('FirstChooser').participant.code
+        spcode = self.group.get_player_by_role('SecondChooser').participant.code
+        partner = self.participant.vars["partner"]
+
+        # Checks for first player
+        if self.is_first():
+            if mycode != fpcode:
+                raise AssertionError( "Player {} is first player, but first by role is {}".format( mycode, fpcode ))
+            if partner != spcode:
+                raise AssertionError( "First player {} has partner {}, but second by role is {}".format( mycode, partner, spcode ))
+
+        # Checks for second player
+        if self.is_second():
+            if mycode != spcode:
+                raise AssertionError( "Player {} is second player, but second by role is {}".format( mycode, spcode ))
+            if partner != fpcode:
+                raise AssertionError( "Second player {} has partner {}, but first by role is {}".format( mycode, partner, fpcode ))
+
+
+        # Our condition matches the one from our partner
+        assert self.condition() == self.group.get_player_by_role('FirstChooser').condition()
+        assert self.condition() == self.group.get_player_by_role('SecondChooser').condition()

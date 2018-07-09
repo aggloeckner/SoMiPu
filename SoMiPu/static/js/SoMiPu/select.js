@@ -41,6 +41,7 @@ function showChoice(parent, disabledId) {
     
     
 var smily_checkboxes;
+var smily_checkedValue;
 
 function showSmily(parent, checkedValue) {
 
@@ -48,17 +49,16 @@ function showSmily(parent, checkedValue) {
 
     if (typeof(checkedValue) != 'undefined' && checkedValue != "" && checkedValue != "None") {
         for (var i=0; i<smily_checkboxes.length; i++) {
-            if($(smily_checkboxes[i]).attr('value') != checkedValue) {
-                $(smily_checkboxes[i]).prop('disabled', true);
-            } else {
+            if($(smily_checkboxes[i]).attr('value') == checkedValue) {
                 $(smily_checkboxes[i]).click();
-                $(smily_checkboxes[i]).click(function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return false;
-                });
             }
+            $(smily_checkboxes[i]).click(function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            });
         }
+        smily_checkedValue = checkedValue;
     } else {
         smily_checkboxes.click(function() {
             if (this.checked == true) {
@@ -144,6 +144,10 @@ function checkChoice() {
 function checkSmilies() {
 
     if (typeof(smily_checkboxes) == 'undefined') {
+        return true;
+    }
+
+    if(smily_checkedValue !== null ) {
         return true;
     }
 

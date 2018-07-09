@@ -1,0 +1,135 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load static %}
+
+{% block title %}
+   Entscheidungsaufgabe
+{% endblock %}
+
+{% block content %}
+    <p>
+    <strong>Hier ein Beispiel:</strong><br><br>
+
+    Unten abgebildet sehen Sie drei Objekte. Welches dieser Objekte würden Sie wählen? <br>
+    {% if role == "FirstChooser" %}
+        Denken Sie daran, dass Sie zuerst ein Objekt auswählen, dann die andere Person.
+    {% else %}
+        Denken Sie daran, dass die andere Person zuerst ein Objekt auswählt, dann
+        Sie. Die Person vor Ihnen hat folgende Wahl getroffen. Welches der verbliebenen Objekte würden Sie <strong>im
+        Anschluss wählen?</strong>
+    {% endif %}
+
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Choice.html" %}
+
+    {% if role == "SecondChooser" %}
+        <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
+    {% endif %}
+
+    </div>
+
+    <br>
+    Treffen Sie Ihre Entscheidung durch Klicken auf das Objekt Ihrer Wahl (bzw. das Kästchen unterhalb des Objekts).
+    <br><br><br>
+    {% if role == "FirstChooser" %}
+        Zur Erinnerung:<strong>Sie sind zu zweit und Sie wählen immer zuerst. Die andere Person wählt nach Ihnen.</strong>
+    {% else %}
+        <p>
+            Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
+            empfinden</strong>. Hierzu markieren Sie mit einem Mausklick die Skala mit einem Kreuzchen an der Stelle, die Ihrer
+            Empfindung am besten entspricht.
+
+            <br><br><br>
+
+            <div id="vas_ff" align="center">
+
+                <script type="text/javascript">
+                    scales.scale('Assess', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
+                    ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['freundlich&nbsp;', '&nbsp;feindselig']);
+                </script><br>
+                <div id="vas_fb_ff" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+                    <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+                </div>
+            </div>
+
+            <br><br><br>
+        </p>
+    {% endif %}
+
+    {% if condition == 'experimental' %}
+        {% if role == "FirstChooser" %}
+            Mit der nachfolgenden Smiley-Skala wird sie Ihnen jeweils Auskunft darüber geben, wie sie Ihr Verhalten nach Ihrer
+            Entscheidung bewertet.
+            <br><br><br>
+        {% else %}
+            Mit den nachfolgenden Smileys teilen Sie Ihrem Gegenüber mit, wie Sie sein Verhalten
+            bewerten.<br>
+            Diese Information wird an Ihr Gegenüber weitergeleitet!
+        {% endif %}
+
+        <div align="center">
+
+        {% include "SoMiPu/Smilies.html" %}
+
+        </div>
+    {% endif %}
+
+
+    {% if role == "SecondChooser" %}
+        <p>
+            In jedem zweiten Durchgang werden Sie dazu befragt, wie stark Ihr Wunsch ist, die <strong>Interaktion
+            fortzusetzen oder zu beenden.</strong>.
+            <br><br><br>
+
+            <div id="vas_fb" align="center">
+
+                <script type="text/javascript">
+                scales.scale('Exclusion', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
+                ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['fortsetzen&nbsp;', '&nbsp;beenden']);
+                </script><br>
+                <div id="vas_fb_fb" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+                    <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+                </div>
+            </div>
+        </p>
+    {% endif %}
+
+
+    {% if condition == "experimental" %}
+        <br><br>
+        {% if role == "FirstChooser" %}
+            <strong>Nach der Hälfte der Studie </strong>entscheidet die andere Person außerdem darüber, <strong>ob Sie weiter
+            zwischen den Gegenständen auswählen</strong> können <strong>oder</strong> an dieser Stelle die <strong>Interaktion
+            zu beenden</strong>, sodass <strong>keiner</strong> von Ihnen mehr ein Objekt auswählen kann. Hierdurch reduziert sich
+            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf 2€.
+        {% else %}
+            Sie entscheiden außerdem nach der Hälfte der Studie darüber, ob die andere Person weiter <strong>zwischen den
+            Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen oder an dieser Stelle die <strong>Interaktion
+            zu beenden</strong>, sodass keiner von Ihnen mehr ein Objekt auswählen kann. Hierdurch reduziert sich
+            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf 2€.
+        {% endif %}
+    {% endif %}
+
+    <br><br><br>
+    Um mit der eigentlichen Entscheidungsaufgabe zu beginnen, wählen Sie bitte "weiter".
+    <br><br></p>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/jquery.visible.js' %}"></script>
+        <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+    {% if role == "SecondChooser" %}
+        <script type="text/javascript">
+            scales.init('value');
+        </script>
+    {% endif %}
+
+{% endblock %}

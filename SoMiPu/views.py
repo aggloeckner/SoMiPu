@@ -7,6 +7,13 @@ from .trialList import TrialList
 from string import digits
 import random
 
+# Global variables for design
+
+IMG_WIDTH           = 100
+IMG_COLUMN_WIDTH    = 210
+SMILEY_IMG_URL      = "img/SoMiPu/Smiley-Skala.png"
+SMILEY_LIST_WIDTH   = 500
+
 class GroupingWaitPage(WaitPage):
     group_by_arrival_time = True
 
@@ -33,6 +40,69 @@ class GroupingWaitPage(WaitPage):
     def vars_for_template(self):
         return {'body_text': "Sobald die nächste Person eintrifft, geht es los.",
                 'title_text': "Bitte warten Sie."}
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+class Decision(Page):
+    def vars_for_template(self):
+        self.player.check_consistency()
+
+        return {
+            "condition" : self.player.condition(),
+            "role"      : self.player.role()
+        }
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+class Example(Page):
+    form_model = 'player'
+    form_fields = ['example_choice']
+
+    def vars_for_template(self):
+        ret = {
+            "condition"         : self.player.condition(),
+            "role"              : self.player.role(),
+            "choiceName"        : "example_choice",
+            "smilyImgUrl"       : SMILEY_IMG_URL,
+            "smilyListWidth"    : SMILEY_LIST_WIDTH,
+            "choiceColumnWidth" : IMG_COLUMN_WIDTH,
+            "choiceWidth"       : IMG_WIDTH }
+
+        ret["choiceList"] = [
+            {
+                "id"            : "example0",
+                "url"           : "img/SoMiPu/MM_green.png",
+                "value"         : "double"
+            },
+            {
+                "id"            : "example1",
+                "url"           : "img/SoMiPu/MM_blue.png",
+                "value"         : "single"
+            },
+            {
+                "id"            : "example2",
+                "url"           : "img/SoMiPu/MM_green.png",
+                "value"         : "double"
+
+            }]
+
+        ret["smilyList"] = [
+            {"id": "cbs1", "name": "example_fb_s1"},
+            {"id": "cbs2", "name": "example_fb_s2"},
+            {"id": "cbs3", "name": "example_fb_s3"},
+            {"id": "cbs4", "name": "example_fb_s4"},
+            {"id": "cbs5", "name": "example_fb_s5"} ]
+
+        if self.player.is_second():
+            ret["firstChoice"]   = "example0"
+            ret["smilyFeedback"] = ""
+        else:
+            ret["firstChoice"]   = ""
+            ret["smilyFeedback"] = "-1"
+
+        return ret
 
     def is_displayed(self):
         return self.round_number == 1
@@ -6989,196 +7059,7 @@ class A_PersonalData(Page):
     def get_form_fields(self):
         return ['participant_sex', 'participant_age', 'participant_lang_skills']
 
-class C1_Decision(Page):
-    def is_displayed(self):
 
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-class C2_Decision (Page):
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-
-class E1_Decision(Page):
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-
-class E2_Decision(Page):
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-
-class C1_Example (Page):
-    firstChoice = "idx"
-
-    choiceList = [
-        {
-            "id": "id0",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id1",
-            "name": "singleElement",
-            "url": "img/SoMiPu/MM_blue.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id2",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        }
-    ]
-
-
-    def vars_for_template(self):
-        return {
-            'choiceList': self.choiceList,
-            'firstChoice': self.firstChoice
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-class C2_Example (Page):
-    firstChoice = "idx"
-
-    choiceList = [
-        {
-            "id": "id0",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id1",
-            "name": "singleElement",
-            "url": "img/SoMiPu/MM_blue.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id2",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        }
-    ]
-
-    def vars_for_template(self):
-        return {
-            'choiceList': self.choiceList,
-            'firstChoice': self.firstChoice
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-class E1_Example (Page):
-    firstChoice = "idx"
-
-    choiceList = [
-        {
-            "id": "id0",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id1",
-            "name": "singleElement",
-            "url": "img/SoMiPu/MM_blue.png",
-            "width": 100,
-            "columnWidth": 210,
-        },
-        {
-            "id": "id2",
-            "name": "doubledElement",
-            "url": "img/SoMiPu/MM_green.png",
-            "width": 100,
-            "columnWidth": 210,
-        }
-    ]
-
-    def vars_for_template(self):
-        return {
-            'choiceList': self.choiceList,
-            'firstChoice': self.firstChoice,
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-class E2_Example(Page):
-
-    smilyListWidth = 500
-    smilyImgUrl = "img/SoMiPu/Smiley-Skala.png"
-
-    smilyList = [
-        {"id": "cbs1"},
-        {"id": "cbs2"},
-        {"id": "cbs3"},
-        {"id": "cbs4"},
-        {"id": "cbs5"}
-    ]
-
-    def vars_for_template(self):
-        return {
-            'smilyListWidth': self.smilyListWidth,
-            'smilyImgUrl': self.smilyImgUrl,
-            'smilyList': self.smilyList
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
 
 class CB1_AP (Page):
     template_name = "SoMiPu/Checkbox1_AllPlayers.html"
@@ -9528,10 +9409,8 @@ class E2_LastPageCI (Page):
 
 page_sequence = [
     GroupingWaitPage,
-    E1_Decision,
-    E1_Example,
-    E2_Decision,
-    E2_Example,
+    Decision,
+    Example,
     WaitPe,
     T1_EFP,
     WaitPe,
@@ -9681,10 +9560,6 @@ page_sequence = [
     T24_ESP,
     WaitPe,
     FB24,
-    C1_Decision,
-    C2_Decision,
-    C1_Example,
-    C2_Example,
     WaitPc,
     T1_CFP,
     WaitPc,
