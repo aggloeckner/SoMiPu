@@ -233,6 +233,7 @@ class Example(SoMiPu_Trial):
         return self.round_number == 1
 
 
+
 class Trials_FP_A (SoMiPu_MainTrial):
     template_name = "SoMiPu/Trials_FirstPlayer.html"
     form_model = models.Player
@@ -243,7 +244,23 @@ class Trials_FP_A (SoMiPu_MainTrial):
     def is_displayed(self):
         return self.player.is_first()
 
+
 class Wait_FP_A(SoMiPu_Wait):
+    pass
+
+
+class Trials_SP_A (SoMiPu_MainTrial):
+    template_name = "SoMiPu/Trial1_SecondPlayer.html"
+    form_model = models.Player
+
+    def repeat(self):
+        return "a"
+
+    def is_displayed(self):
+        return self.player.is_second()
+
+
+class Wait_SP_A(SoMiPu_Wait):
     pass
 
 
@@ -260,6 +277,15 @@ class Trials_FP_B (SoMiPu_MainTrial):
 class Wait_FP_B(SoMiPu_Wait):
     pass
 
+class Trials_SP_B (SoMiPu_MainTrial):
+    template_name = "SoMiPu/Trial2_SecondPlayer.html"
+    form_model = models.Player
+
+    def repeat(self):
+        return "b"
+
+    def is_displayed(self):
+        return self.player.is_second()
 
 class E2_Resolution(Page):
     pass
