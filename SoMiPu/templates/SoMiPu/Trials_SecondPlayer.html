@@ -12,15 +12,15 @@
 
         {% include "SoMiPu/Choice.html" %}
 
-
         <br><br><br>
 
         <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
 
     </div>
-
     <p>
+        <br><br><br>
+
         Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
         empfinden</strong>. Hierzu markieren Sie mit einem Mausklick die Skala mit einem Kreuzchen an der Stelle, die Ihrer
         Empfindung am besten entspricht.
@@ -35,12 +35,12 @@
             </script><br>
 
             <div id="vas_fb_ff" style="display:none; background-color:Yellow; text-align:center; width:500px;">
-            <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+                <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
             </div>
         </div>
 
-        <br><br>
-        {% if condition == "experimental" %}
+        {% if condition == 'experimental' %}
+            <br><br><br>
             Geben Sie der Person ein Feedback zu ihrer Wahlentscheidung.
             <br><br><br>
 
@@ -48,41 +48,41 @@
 
                 {% include "SoMiPu/Smilies.html" %}
 
-            </div>
-            <br><br><br>
+            </div><br><br><br>
         {% endif %}
 
-        <p>Wie stark ist Ihr Wunsch, die <strong>Interaktion fortzusetzen oder zu beenden?</strong></p>
+        {% if repeat == 'b' %}
+            <p>Wie stark ist Ihr Wunsch, die <strong>Interaktion fortzusetzen oder zu beenden?</strong></p>
 
-        <br><br>
+            <br><br>
 
-        <div id="vas_fb" align="center" style="min-height: 100px">
+            <div id="vas_fb" align="center" style="min-height: 100px">
 
-            <script type="text/javascript">
-            scales.scale('{{ trial }}_fb_fb', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
-            ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['fortsetzen&nbsp;', '&nbsp;beenden']);
-            </script><br>
+                <script type="text/javascript">
+                scales.scale('{{ trial }}_fb_fb', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
+                ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['fortsetzen&nbsp;', '&nbsp;beenden']);
+                </script><br>
 
-            <div id="vas_fb_fb" style="display:none; background-color:Yellow; text-align:center; width:500px;">
-                <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+                <div id="vas_fb_fb" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+                    <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
+                </div>
             </div>
-        </div>
 
-        <br><br>
-        {% if condition == "experimental" %}
-            {% if ExclusionaryThreat %}
-                Sie entscheiden außerdem nach der Hälfte der Studie darüber, <strong>ob</strong> die andere Person <strong>
-                weiter zwischen den Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen <strong>oder</strong> an
-                dieser Stelle die <strong>Interaktion zu beenden,</strong> sodass <strong>keiner</strong> von Ihnen mehr ein Objekt
-                auswählen kann.</div>
-                <br><br>
+            <br><br>
+            {% if condition == "experimental" %}
+                {% if ExclusionaryThreat %}
+                    Sie entscheiden außerdem nach der Hälfte der Studie darüber, <strong>ob</strong> die andere Person <strong>
+                    weiter zwischen den Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen <strong>oder</strong> an
+                    dieser Stelle die <strong>Interaktion zu beenden,</strong> sodass <strong>keiner</strong> von Ihnen mehr ein Objekt
+                    auswählen kann.</div>
+                    <br><br>
+                {% endif %}
             {% endif %}
         {% endif %}
 
         {% include "SoMiPu/TrialData.inc.html" %}
 
-        Um fortzufahren, wählen Sie bitte "weiter".
-        <br>
+        Um fortzufahren, wählen Sie bitte "weiter".<br>
     </p>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>

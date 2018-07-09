@@ -250,7 +250,7 @@ class Wait_FP_A(SoMiPu_Wait):
 
 
 class Trials_SP_A (SoMiPu_MainTrial):
-    template_name = "SoMiPu/Trial1_SecondPlayer.html"
+    template_name = "SoMiPu/Trials_SecondPlayer.html"
     form_model = models.Player
 
     def repeat(self):
@@ -278,7 +278,7 @@ class Wait_FP_B(SoMiPu_Wait):
     pass
 
 class Trials_SP_B (SoMiPu_MainTrial):
-    template_name = "SoMiPu/Trial2_SecondPlayer.html"
+    template_name = "SoMiPu/Trials_SecondPlayer.html"
     form_model = models.Player
 
     def repeat(self):
