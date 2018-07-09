@@ -14,6 +14,137 @@ IMG_COLUMN_WIDTH    = 210
 SMILEY_IMG_URL      = "img/SoMiPu/Smiley-Skala.png"
 SMILEY_LIST_WIDTH   = 500
 
+############ Base classes ###########
+
+# Base class for all trials including example trials
+class SoMiPu_Trial(Page):
+    def SoMiPu_Vars(self):
+        ret = {
+            "condition"         : self.player.condition(),
+            "role"              : self.player.role(),
+            "smilyImgUrl"       : SMILEY_IMG_URL,
+            "smilyListWidth"    : SMILEY_LIST_WIDTH,
+            "choiceColumnWidth" : IMG_COLUMN_WIDTH,
+            "choiceWidth"       : IMG_WIDTH }
+
+        return ret
+
+class SoMiPu_MainTrial(SoMiPu_Trial):
+
+    def repeat(self):
+        raise NotImplementedError("repeat not implemented for base MainTrial")
+
+    def get_form_fields(self):
+        ret = [ 'stimulus_{}', 'stimulus_name_{}', 'subtrial_{}',
+                'single_{}', 'double_{}',
+                'item1_{}', 'item2_{}', 'item3_{}' ]
+
+        if self.player.is_first():
+            ret.append("firstChoice_{}")
+        else:
+            ret.append("secondChoice_{}")
+
+        ret = [s.format( self.repeat() ) for s in ret]
+        return ret
+
+
+    def vars_for_template(self):
+        ret = self.SoMiPu_Vars()
+
+        trial = self.player.get_trial(self.round_number)
+        tid   = trial["Trial"]
+        item  = trial["Item"]
+        vr1   = trial["Variety1"]
+        vr2   = trial["Variety2"]
+
+        subtrial  = self.player.get_subtrial(self.round_number)
+        itemOrder = self.player.get_itemOrder(self.round_number, subtrial)
+
+        ret["repeat"]           = self.repeat()
+        ret["stimulus"]         = tid
+        ret["stimulus_name"]    = item
+        ret["subtrial"]         = subtrial
+
+        if self.repeat() == "a":
+            if subtrial == 0:
+                # Subtrial 0:
+                # First item single, second item double
+                ret["single"] = vr1
+                ret["double"] = vr2
+            else:
+                # Subtrial 1:
+                # First item double, second item single
+                ret["double"] = vr1
+                ret["single"] = vr2
+        else:
+            if subtrial == 0:
+                # Subtrial 0:
+                # First item double, second item single
+                ret["single"] = vr2
+                ret["double"] = vr1
+            else:
+                # Subtrial 1:
+                # First item single, second item double
+                ret["double"] = vr2
+                ret["single"] = vr1
+
+        choiceList = [
+            { "id"      :   "item_{}{}_1".format(tid,self.repeat()),
+              "value"   :   "single",
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["single"]) },
+
+            { "id"      :   "item_{}{}_2".format(tid,self.repeat()),
+              "value"   :   "double",
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["double"]) },
+
+            { "id"      :   "item_{}{}_3".format(tid,self.repeat()),
+              "value"   :   "double",
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["double"]) } ]
+
+        ret["choiceList"] = [choiceList[itemOrder[i]] for i in range(3)]
+
+        if self.repeat() == "a":
+            ret["ExclusionaryThreat"] = False
+        else:
+            ret["ExclusionaryThreat"] = True
+
+        if self.player.is_first():
+            ret["choiceName"] = "firstChoice_{}".format(self.repeat())
+            ret["firstChoice"]  = ""
+        else:
+            ret["choiceName"] = "secondChoice_{}".format(self.repeat())
+
+        return ret
+
+class SoMiPu_Wait(WaitPage):
+    template_name = "SoMiPu/WaitPage.html"
+
+    def vars_for_template(self):
+        return {'body_text': "Sobald die andere Person ihre Wahl getroffen hat, geht es weiter.",
+                'title_text': "Bitte warten Sie ..."}
+
+class WaitPe(WaitPage):
+    template_name = "SoMiPu/WaitPage.html"
+
+    def vars_for_template(self):
+        return {'body_text': "Sobald die andere Person ihre Wahl getroffen hat, geht es weiter.",
+                'title_text': "Bitte warten Sie ..."}
+
+    def is_displayed(self):
+        if self.session.vars['treatment'] == 'control':
+            return False
+
+        if self.player.__getattribute__('terminate_interaction') is True:
+            return False
+        else:
+            return True
+
+class WaitPc(WaitPage):
+    pass
+
+############# Actual Pages ###########
+
+
 class GroupingWaitPage(WaitPage):
     group_by_arrival_time = True
 
@@ -56,19 +187,13 @@ class Decision(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-class Example(Page):
+class Example(SoMiPu_Trial):
     form_model = 'player'
     form_fields = ['example_choice']
 
     def vars_for_template(self):
-        ret = {
-            "condition"         : self.player.condition(),
-            "role"              : self.player.role(),
-            "choiceName"        : "example_choice",
-            "smilyImgUrl"       : SMILEY_IMG_URL,
-            "smilyListWidth"    : SMILEY_LIST_WIDTH,
-            "choiceColumnWidth" : IMG_COLUMN_WIDTH,
-            "choiceWidth"       : IMG_WIDTH }
+        ret = self.SoMiPu_Vars()
+        ret["choiceName"] =  "example_choice"
 
         ret["choiceList"] = [
             {
@@ -108,94 +233,39 @@ class Example(Page):
         return self.round_number == 1
 
 
-class WaitPe(WaitPage):
-    template_name = "SoMiPu/WaitPage.html"
+class Trials_FP_A (SoMiPu_MainTrial):
+    template_name = "SoMiPu/Trials_FirstPlayer.html"
+    form_model = models.Player
 
-    def vars_for_template(self):
-        return {'body_text': "Sobald die andere Person ihre Wahl getroffen hat, geht es weiter.",
-                'title_text': "Bitte warten Sie ..."}
-
-    def is_displayed(self):
-        if self.session.vars['treatment'] == 'control':
-            return False
-
-        if self.player.__getattribute__('terminate_interaction') is True:
-            return False
-        else:
-            return True
-
-class WaitPc(WaitPage):
-    template_name = "SoMiPu/WaitPage.html"
-
-    def vars_for_template(self):
-        return {'body_text': "Sobald die andere Person ihre Wahl getroffen hat, geht es weiter.",
-                'title_text': "Bitte warten Sie ..."}
+    def repeat(self):
+        return "a"
 
     def is_displayed(self):
-        if self.session.vars['treatment'] == 'control':
-            return True
-        else:
-            return False
+        return self.player.is_first()
+
+class Wait_FP_A(SoMiPu_Wait):
+    pass
+
+
+class Trials_FP_B (SoMiPu_MainTrial):
+    template_name = "SoMiPu/Trials_FirstPlayer.html"
+    form_model = models.Player
+
+    def repeat(self):
+        return "b"
+
+    def is_displayed(self):
+        return self.player.is_first()
+
+class Wait_FP_B(SoMiPu_Wait):
+    pass
 
 
 class E2_Resolution(Page):
     pass
 
 
-class T1_EFP (Page):
-        template_name = "SoMiPu/Experimental_Trials_FirstPlayer.html"
-        form_model = models.Player
 
-        firstChoice = ""
-        choiceList = [
-            {"width": 100, "columnWidth": 210},
-            {"width": 100, "columnWidth": 210},
-            {"width": 100, "columnWidth": 210}
-        ]
-
-        def get_form_fields(self):
-
-            trials = self.participant.vars['trials']
-
-            trialObjects = trials.getTrial(0, 0)
-            fields = ['firstChoice', trialObjects[0].name + '_seq']
-            fields.append(trialObjects[0].name)
-            return fields
-
-        def vars_for_template(self):
-
-            trials = self.participant.vars['trials']
-
-            trialObjects = trials.getTrial(0, 0)
-
-            self.choiceList[0]['id'] = trialObjects[0].id
-            self.choiceList[0]['name'] = trialObjects[0].name
-            self.choiceList[0]['value'] = trialObjects[0].value
-            self.choiceList[0]['url'] = trialObjects[0].url
-            self.choiceList[1]['id'] = trialObjects[1].id
-            self.choiceList[1]['name'] = trialObjects[1].name
-            self.choiceList[1]['value'] = trialObjects[1].value
-            self.choiceList[1]['url'] = trialObjects[1].url
-            self.choiceList[2]['id'] = trialObjects[2].id
-            self.choiceList[2]['name'] = trialObjects[2].name
-            self.choiceList[2]['value'] = trialObjects[2].value
-            self.choiceList[2]['url'] = trialObjects[2].url
-
-            return {
-                'choiceList': self.choiceList,
-                'firstChoice': self.firstChoice,
-                'sequence': '1',
-                'trial': trialObjects[0].name,
-                'ExclusionaryThreat': "none"
-            }
-
-        def is_displayed(self):
-
-            if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'FirstChooser':
-                return True
-            else:
-                return False
 
 
 class T2_EFP(Page):
@@ -9408,12 +9478,28 @@ class E2_LastPageCI (Page):
 
 
 page_sequence = [
+    # This block only run for round_number == 1
     GroupingWaitPage,
     Decision,
     Example,
-    WaitPe,
-    T1_EFP,
-    WaitPe,
+
+    # First player does not depend on P2 (no wait!)
+
+    # First set of decisions
+    Trials_FP_A,
+    Wait_FP_A,
+    Trials_SP_A,
+    Wait_SP_A,
+
+    # Second set of decisions
+    Trials_FP_B,
+    Wait_FP_B,
+    Trials_SP_B,
+    Wait_SP_B]
+
+
+
+obsolete = [WaitPe,
     T1_ESP,
     WaitPe,
     FB1,

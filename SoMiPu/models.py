@@ -47,64 +47,63 @@ class Player(BasePlayer):
     # Für das Beispiel
     example_choice = models.CharField()
 
+    ##### Fields for A Trials
 
     # id der vom FirstChooser gewaehlten Checkbox
-    firstChoice = models.CharField()
+    firstChoice_a = models.CharField()
 
-    # id der vom SecondChooser gewaehlten Checkbox
-    secondChoice = models.CharField()
+    # id der vom SecondChooser gewaehlten Checkbox in trial A
+    secondChoice_a = models.CharField()
 
-    # trials - Auswahl des FirstChoosers
-    trial_1a = models.CharField()
-    trial_1b = models.CharField()
-    trial_2a = models.CharField()
-    trial_2b = models.CharField()
-    trial_3a = models.CharField()
-    trial_3b = models.CharField()
-    trial_4a = models.CharField()
-    trial_4b = models.CharField()
-    trial_5a = models.CharField()
-    trial_5b = models.CharField()
-    trial_6a = models.CharField()
-    trial_6b = models.CharField()
-    trial_7a = models.CharField()
-    trial_7b = models.CharField()
-    trial_8a = models.CharField()
-    trial_8b = models.CharField()
-    trial_9a = models.CharField()
-    trial_9b = models.CharField()
-    trial_10a = models.CharField()
-    trial_10b = models.CharField()
-    trial_11a = models.CharField()
-    trial_11b = models.CharField()
-    trial_12a = models.CharField()
-    trial_12b = models.CharField()
+    # ID of the stimulus item
+    stimulus_a = models.IntegerField()
 
-    # gespielte Reihenfolge der trials
-    trial_1a_seq = models.IntegerField()
-    trial_1b_seq = models.IntegerField()
-    trial_2a_seq = models.IntegerField()
-    trial_2b_seq = models.IntegerField()
-    trial_3a_seq = models.IntegerField()
-    trial_3b_seq = models.IntegerField()
-    trial_4a_seq = models.IntegerField()
-    trial_4b_seq = models.IntegerField()
-    trial_5a_seq = models.IntegerField()
-    trial_5b_seq = models.IntegerField()
-    trial_6a_seq = models.IntegerField()
-    trial_6b_seq = models.IntegerField()
-    trial_7a_seq = models.IntegerField()
-    trial_7b_seq = models.IntegerField()
-    trial_8a_seq = models.IntegerField()
-    trial_8b_seq = models.IntegerField()
-    trial_9a_seq = models.IntegerField()
-    trial_9b_seq = models.IntegerField()
-    trial_10a_seq = models.IntegerField()
-    trial_10b_seq = models.IntegerField()
-    trial_11a_seq = models.IntegerField()
-    trial_11b_seq = models.IntegerField()
-    trial_12a_seq = models.IntegerField()
-    trial_12b_seq = models.IntegerField()
+    # Name of the stimulus item
+    stimulus_name_a = models.CharField()
+
+    subtrial_a = models.IntegerField()
+
+    # Item variety that is displayed once
+    single_a = models.CharField()
+
+    # Item variety that is displayed twice
+    double_a = models.CharField()
+
+    # Display order
+    item1_a = models.CharField()
+    item2_a = models.CharField()
+    item3_a = models.CharField()
+
+    ##### Fields for B Trials
+
+    # id der vom FirstChooser gewaehlten Checkbox
+    firstChoice_b = models.CharField()
+
+    # id der vom SecondChooser gewaehlten Checkbox in trial A
+    secondChoice_b = models.CharField()
+
+    # ID of the stimulus item
+    stimulus_b = models.IntegerField()
+
+    # Name of the stimulus item
+    stimulus_name_b = models.CharField()
+
+    subtrial_b = models.IntegerField()
+
+    # Item variety that is displayed once
+    single_b = models.CharField()
+
+    # Item variety that is displayed twice
+    double_b = models.CharField()
+
+    # Display order
+    item1_b = models.CharField()
+    item2_b = models.CharField()
+    item3_b = models.CharField()
+
+    
+    
+
 
     # Feedback des SecondChoosers (Smilies)
     trial_1a_fb_s = models.IntegerField()
@@ -256,12 +255,37 @@ class Player(BasePlayer):
         random.shuffle( tids )
         self.participant.vars["SoMiPu_Order"]     = tids
         self.participant.vars["SoMiPu_CompFirst"] = [random.randrange(2) for _ in tids]
-        self.participant.vars["SoMiPu_Idx"]       = 0
+
+
+        itemOrder = [[[0,1,2],[0,1,2]] for _ in tids]
+        for i,_ in enumerate(itemOrder):
+            for j,_ in enumerate(itemOrder[i]):
+                random.shuffle( itemOrder[i][j] )
+
+        self.participant.vars["SoMiPu_ItemOrder"] = itemOrder
+
+    def get_fp(self):
+        return self.group.get_player_by_role('FirstChooser')
+
+    def get_sp(self):
+        return self.group.get_player_by_role('SecondChooser')
+
+    def get_order(self, round_number):
+        return self.get_fp().participant.vars["SoMiPu_Order"][round_number - 1]
+
+    def get_trial(self, round_number):
+        return self.session.vars["SoMiPu_Trials"][ self.get_order( round_number ) ]
+
+    def get_subtrial(self, round_number):
+        return self.get_fp().participant.vars["SoMiPu_CompFirst"][ round_number - 1 ]
+
+    def get_itemOrder(self, round_number, subtrial):
+        return self.get_fp().participant.vars["SoMiPu_ItemOrder"][ round_number - 1 ][ subtrial ]
 
     def check_consistency(self):
         mycode = self.participant.code
-        fpcode = self.group.get_player_by_role('FirstChooser').participant.code
-        spcode = self.group.get_player_by_role('SecondChooser').participant.code
+        fpcode = self.get_fp().participant.code
+        spcode = self.get_sp().participant.code
         partner = self.participant.vars["partner"]
 
         # Checks for first player

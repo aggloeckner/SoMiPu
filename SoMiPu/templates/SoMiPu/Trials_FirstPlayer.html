@@ -1,0 +1,46 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block content %}
+
+    <p>Welches dieser Objekte würden Sie nehmen? Sie wählen zuerst, dann die andere Person!</p>
+
+    <br><br>
+
+    <div align="center">
+
+    {% include "SoMiPu/Choice.html" %}
+
+    </div>
+
+    <br>
+
+    Die andere Person wählt nach Ihnen aus den verbliebenen Objekten.
+    
+    {% include "SoMiPu/TrialData.inc.html" %}
+
+    {% if condition == 'experimental' %}
+
+        {% if ExclusionaryThreat %}
+            <br>
+
+            Die andere Person entscheidet nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
+            Gegenständen auswählen</strong> können, um selbst nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
+            <strong>Interaktion zu beenden,</strong> sodass <strong>keiner</strong> von Ihnen mehr ein Objekt auswählen kann.
+        {% endif %}
+
+    {% endif %}
+
+    <br><br><br>
+
+    Um fortzufahren, wählen Sie bitte "weiter".
+    <br><br></p>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+    {% block scripts %}
+        <script src="{% static 'js/SoMiPu/jquery.visible.js' %}"></script>
+        <script src="{% static 'js/SoMiPu/select.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}
