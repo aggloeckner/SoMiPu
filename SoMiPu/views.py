@@ -382,8 +382,11 @@ class A_PersonalData(Page):
 
 class LastPage (Page):
     def vars_for_template(self):
+        # Additional 2 Euro if this page is reached without termination
+        if self.player.has_not_terminated():
+            self.player.payoff = c(2)
         return { 
-            "hasTerminated": self.player.has_terminated(),
+            "payoff":           self.participant.payoff,
             "condition":        self.player.condition()
          }
 

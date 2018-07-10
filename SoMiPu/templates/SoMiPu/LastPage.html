@@ -10,11 +10,7 @@
     <p>
         Sie sind am Ende der Studie angekommen und haben alle Aufgaben erfolgreich bearbeitet.<br>
         <strong>Vielen herzlichen Dank für Ihre Teilnahme!</strong><br><br>
-        {% if hasTerminated %}
-            Sie erhalten Ihre Vergütung von 2€ zeitnah nach Beendigung der Studie.<br><br>
-        {% else %}
-            Sie erhalten Ihre Vergütung von 4€ zeitnah nach Beendigung der Studie.<br><br>
-        {% endif %}
+        Sie erhalten Ihre Vergütung von {{ payoff }} zeitnah nach Beendigung der Studie.<br><br>
         <strong>Zum Hintergrund der Studie:</strong><br>
         Sie haben soeben an einer Studie teilgenommen, die Bestandteil einer Untersuchungsreihe über Entscheidungen im
         ökonomischen Kontext ist.<br> Sie geht der Forschungsfrage nach, ob die Möglichkeit, eine Person von weiterer sozialer
