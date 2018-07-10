@@ -13,24 +13,23 @@ doc = """
 Entscheidungsaufgabe mit zwei Personen
 """
 
+with open("Trials.csv") as f:
+    rdr = csv.reader(f, delimiter = ";")
+    l = [r for r in rdr]
+    d = [dict(zip(l[0],r)) for r in l[1:]]
+    SoMiPu_Trials = dict( [(int(r["Trial"]),r) for r in d] )
+
 
 class Constants(BaseConstants):
     name_in_url = 'SoMiPu'
     players_per_group = 2
-    num_rounds = 2
+    num_rounds = len(SoMiPu_Trials) * 2
 
 
 
 class Subsession(BaseSubsession):
-    def creating_session(self):
-        with open("Trials.csv") as f:
-            rdr = csv.reader(f, delimiter = ";")
-            l = [r for r in rdr]
-            d = [dict(zip(l[0],r)) for r in l[1:]]
-            trials = dict( [(int(r["Trial"]),r) for r in d] )
-            self.session.vars["SoMiPu_Trials"] = trials
-
-
+    pass
+        
 
 class Group(BaseGroup):
     pass
@@ -170,7 +169,7 @@ class Player(BasePlayer):
         return self.condition() == "control"
 
     def randomize_trials(self):
-        trials = self.session.vars["SoMiPu_Trials"].keys()
+        trials = SoMiPu_Trials.keys()
         tids = list( trials )
         random.shuffle( tids )
         
@@ -205,7 +204,7 @@ class Player(BasePlayer):
         return self.get_fp().participant.vars["SoMiPu_Order"][ self.trial_idx( round_number ) ]
 
     def get_trial(self, round_number):
-        return self.session.vars["SoMiPu_Trials"][ self.get_order( round_number ) ]
+        return SoMiPu_Trials[ self.get_order( round_number ) ]
 
     def get_subtrial(self, round_number):
         return self.get_fp().participant.vars["SoMiPu_SubOrder"][ self.trial_idx( round_number ) ][ self.repeat_idx( round_number ) ]
