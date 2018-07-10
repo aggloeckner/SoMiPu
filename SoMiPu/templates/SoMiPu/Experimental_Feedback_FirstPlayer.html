@@ -3,39 +3,59 @@
 
 {% block content %}
 
-<!--Diese Feedbackseite wird dem First Chooser in jedem Trial angezeigt, der Text unten nur in jedem zweiten Trial.-->
+    <p>
+        Die andere Person hat nach Ihnen aus den verbliebenen Objekten folgendes gewählt.
 
-    <p>Die andere Person hat nach Ihnen aus den verbliebenen Objekten folgendes gewählt.
+        <br><br>
 
-    <br><br>
+        <div align="center">
 
-    <div align="center">
+        {% include "SoMiPu/Choice.html" %}
 
-    {% include "SoMiPu/Choice.html" %}
+        </div>
 
-    </div>
+        <br><br><br>
 
-    <br><br><br>
+        Hier ist das Feedback der Person zu Ihrer Wahlentscheidung!
 
-    Hier ist das Feedback der Person zu Ihrer Wahlentscheidung!
+        <br><br>
 
-    <br><br><br><br>
+        <div align="center">
 
-    <div align="center">
+        {% include "SoMiPu/Smilies.html" %}
 
-    {% include "SoMiPu/Smilies.html" %}
+        </div>
 
-    </div>
+        <br><br><br>
+        {% if hasTerminated %}
+            Die andere Person hat sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Vielen Dank für Ihre bisherigen
+            Angaben und die Unterstützung unserer Forschung! Damit ist die Bearbeitung der Entscheidungsaufgabe abgeschlossen.
+            <br><br>
+            Im Folgenden bitten wir Sie <strong>noch einige wenige Fragen </strong>zu Ihrer Person zu <strong> beantworten</strong>.
+            <br><br>
 
-    {% if ExclusionaryThreat %}
-        Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
-        Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
-        <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.<br><br>
-    {% endif %}
+            Wählen Sie bitte "weiter", um die Fragen zu beantworten.
+        {% else %}
+            {% if halfTime %}
+                <div align="center">
+                    <h4>Sie haben jetzt die Hälfte der Studie erreicht. Die andere Person hat sich dafür entschieden, die Interaktion mit
+                    Ihnen fortzusetzen.</h4>
+                    <br><br><br>
+                </div>
+            {% else %}
 
+                {% if ExclusionaryThreat %}
+                    Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
+                    Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
+                    <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.<br><br>
+                {% endif %}
 
-    Um fortzufahren, wählen Sie bitte "weiter".
-    <br></p>
+            {% endif %}
+            
+            Um fortzufahren, wählen Sie bitte "weiter".
+        {% endif %}
+        <br>
+    </p>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 

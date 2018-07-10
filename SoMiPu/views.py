@@ -336,6 +336,8 @@ class Exp_FB(SoMiPu_MainTrial):
         ret["firstChoice"] = self.player.get_firstchoice()
         ret["secondChoice"] = self.player.get_secondchoice()
         ret["smilyFeedback"] = self.player.get_smilyfeedback()
+        ret["hasTerminated"] = self.player.has_terminated()
+        ret["halfTime"] = self.player.is_halftime()
         ret["feedback"] = True
 
         return ret
@@ -345,33 +347,8 @@ class Exp_FB(SoMiPu_MainTrial):
         return (
             self.player.is_first() and 
             self.player.is_experimental() and
-            self.player.is_not_halftime() and
-            self.player.has_not_terminated() )
+            (self.player.before_halftime() or self.player.has_not_terminated()) )
 
-
-class Exp_FB_HT(SoMiPu_MainTrial):
-    form_model = models.Player
-    template_name = "SoMiPu/Experimental_Feedback_Half_Time_FirstPlayer.html"
-
-    def get_form_fields(self):
-        return []
-
-    def vars_for_template(self):
-        ret = super(Exp_FP_CI, self).vars_for_template()
-        ret["firstChoice"] = self.player.get_firstchoice()
-        ret["secondChoice"] = self.player.get_secondchoice()
-        ret["smilyFeedback"] = self.player.get_smilyfeedback()
-        ret["has_terminated"] = self.player.has_terminated()
-        ret["feedback"] = True
-
-        return ret
-
-    def is_displayed(self):
-        self.player.check_consistency()
-        return (
-            self.player.is_first() and 
-            self.player.is_experimental() and
-            self.player.is_halftime() )
 
 class CB1_AP (Page):
     template_name = "SoMiPu/Checkbox1_AllPlayers.html"
@@ -611,7 +588,6 @@ page_sequence = [
     FB_RTF,
     Wait_Trials_SP,
     Exp_FB,
-    Exp_FB_HT,
     CB1_AP,
     CB2_FP,
     CB2_SP,
