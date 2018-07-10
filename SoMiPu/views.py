@@ -384,181 +384,31 @@ class C_LastPage (Page):
     def is_displayed(self):
         return self.player.is_control() and self.player.is_fulltime()
 
-class E1_LastPageFI(Page):
-    template_name = "SoMiPu/E1_LastPage_FI.html"
+class E1_LastPage(Page):
+    template_name = "SoMiPu/E1_LastPage.html"
+
+    def vars_for_template(self):
+        return { "hasTerminated": self.player.has_terminated() }
+
     def is_displayed(self):
         return (
             self.player.is_experimental() and
             self.player.is_first() and
-            self.player.has_terminated() and
             self.player.is_fulltime() )
 
-class E1_LastPageCI(Page):
-    template_name = "SoMiPu/E1_LastPage_CI.html"
-    def is_displayed(self):
-        return (
-            self.player.is_experimental() and
-            self.player.is_first() and
-            self.player.has_not_terminated() and
-            self.player.is_fulltime() )
 
-class E2_LastPageFI (Page):
-    template_name = "SoMiPu/E2_LastPage_FI.html"
+class E2_LastPage (Page):
+    template_name = "SoMiPu/E2_LastPage.html"
+
+    def vars_for_template(self):
+        return { "hasTerminated": self.player.has_terminated() }
+        
     def is_displayed(self):
         return(
             self.player.is_experimental() and
             self.player.is_second() and
-            self.player.has_terminated() and
             self.player.is_fulltime() )
 
-class E2_LastPageCI (Page):
-    template_name = "SoMiPu/E2_LastPage_CI.html"
-    def is_displayed(self):
-        return(
-            self.player.is_experimental() and
-            self.player.is_second() and
-            self.player.has_not_terminated() and
-            self.player.is_fulltime() )
-
-
-class T24_CFP(Page):
-    template_name = "SoMiPu/Control_Trials_FirstPlayer.html"
-    form_model = models.Player
-    # form_fields = ['trial_1a']
-
-    firstChoice = ""
-    choiceList = [
-        {"width": 100, "columnWidth": 210},
-        {"width": 100, "columnWidth": 210},
-        {"width": 100, "columnWidth": 210}
-    ]
-
-    def get_form_fields(self):
-
-        if self.player.role() == "SecondChooser":
-            firstChooser = self.group.get_player_by_role('FirstChooser')
-            trials = firstChooser.participant.vars['trials']
-        else:
-            trials = self.participant.vars['trials']
-
-        trialObjects = trials.getTrial(11, 1)
-        fields = ['firstChoice', trialObjects[0].name + '_seq']
-        fields.append(trialObjects[0].name)
-        return fields
-
-    def vars_for_template(self):
-
-        if self.player.role() == "SecondChooser":
-            firstChooser = self.group.get_player_by_role('FirstChooser')
-            trials = firstChooser.participant.vars['trials']
-        else:
-            trials = self.participant.vars['trials']
-
-        trialObjects = trials.getTrial(11, 1)
-
-        self.choiceList[0]['id'] = trialObjects[0].id
-        self.choiceList[0]['name'] = trialObjects[0].name
-        self.choiceList[0]['value'] = trialObjects[0].value
-        self.choiceList[0]['url'] = trialObjects[0].url
-        self.choiceList[1]['id'] = trialObjects[1].id
-        self.choiceList[1]['name'] = trialObjects[1].name
-        self.choiceList[1]['value'] = trialObjects[1].value
-        self.choiceList[1]['url'] = trialObjects[1].url
-        self.choiceList[2]['id'] = trialObjects[2].id
-        self.choiceList[2]['name'] = trialObjects[2].name
-        self.choiceList[2]['value'] = trialObjects[2].value
-        self.choiceList[2]['url'] = trialObjects[2].url
-
-        return {
-            'choiceList': self.choiceList,
-            'firstChoice': self.firstChoice,
-            'sequence': '24',
-            'trial': trialObjects[0].name
-
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-    def before_next_page(self):
-        self.player.__setattr__('payoff', c(4))
-
-
-class T24_CSP(Page):
-    template_name = "SoMiPu/Control_Trial2_SecondPlayer.html"
-    form_model = models.Player
-
-    firstChoice = ""
-    choiceList = [
-        {"width": 100, "columnWidth": 210},
-        {"width": 100, "columnWidth": 210},
-        {"width": 100, "columnWidth": 210}
-    ]
-
-    def get_form_fields(self):
-
-        if self.player.role() == "SecondChooser":
-            firstChooser = self.group.get_player_by_role('FirstChooser')
-            trials = firstChooser.participant.vars['trials']
-        else:
-            trials = self.participant.vars['trials']
-
-        trialObjects = trials.getTrial(11, 1)
-        fields = ['secondChoice', trialObjects[0].name + '_fb_fb', trialObjects[0].name + '_fb_ff', trialObjects[0].name + '_seq']
-        fields.append(trialObjects[0].name)
-        return fields
-
-    def vars_for_template(self):
-
-        print("vars_for_template")
-
-        if self.player.role() == "SecondChooser":
-            firstChooser = self.group.get_player_by_role('FirstChooser')
-            trials = firstChooser.participant.vars['trials']
-            self.firstChoice = firstChooser.__getattribute__('firstChoice')
-        else:
-            trials = self.participant.vars['trials']
-            self.firstChoice = self.player.__getattribute__('firstChoice')
-
-        trialObjects = trials.getTrial(11, 1)
-
-        self.choiceList[0]['id'] = trialObjects[0].id
-        self.choiceList[0]['name'] = trialObjects[0].name
-        self.choiceList[0]['value'] = trialObjects[0].value
-        self.choiceList[0]['url'] = trialObjects[0].url
-        self.choiceList[1]['id'] = trialObjects[1].id
-        self.choiceList[1]['name'] = trialObjects[1].name
-        self.choiceList[1]['value'] = trialObjects[1].value
-        self.choiceList[1]['url'] = trialObjects[1].url
-        self.choiceList[2]['id'] = trialObjects[2].id
-        self.choiceList[2]['name'] = trialObjects[2].name
-        self.choiceList[2]['value'] = trialObjects[2].value
-        self.choiceList[2]['url'] = trialObjects[2].url
-
-        # print(self.player.__dict__trial_1a)
-        # print("form_fields:" + self.form_fields[0])
-        return {
-            'choiceList': self.choiceList,
-            'firstChoice': self.firstChoice,
-            'trial': trialObjects[0].name,
-            'sequence': '24'
-        }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-    def before_next_page(self):
-        self.player.__setattr__('payoff', c(4))
 
 page_sequence = [
     # This block only run for round_number == 1
@@ -580,7 +430,5 @@ page_sequence = [
     CB2_AP,
     A_PersonalData,
     C_LastPage,
-    E1_LastPageFI,
-    E1_LastPageCI,
-    E2_LastPageFI,
-    E2_LastPageCI ]
+    E1_LastPage,
+    E2_LastPage ]

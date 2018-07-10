@@ -1,0 +1,39 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Vielen Dank für Ihre Teilnahme
+{% endblock %}
+
+{% block content %}
+
+    <!--Letzte Seite Experimentalgruppe First Chooser-->
+
+    <p>
+        Sie sind am Ende der Studie angekommen und haben alle Aufgaben erfolgreich bearbeitet.<br>
+        <strong>Vielen herzlichen Dank für Ihre Teilnahme!</strong><br><br>
+        {% if hasTerminated %}
+            Sie erhalten Ihre Vergütung von 2€ zeitnah nach Beendigung der Studie.<br><br>
+        {% else %}
+            Sie erhalten Ihre Vergütung von 4€ zeitnah nach Beendigung der Studie.<br><br>
+        {% endif %}
+        <strong>Zum Hintergrund der Studie:</strong><br>
+        Sie haben soeben an einer Studie teilgenommen, die Bestandteil einer Untersuchungsreihe über Entscheidungen im
+        ökonomischen Kontext ist.<br> Sie geht der Forschungsfrage nach, ob die Möglichkeit, eine Person von weiterer sozialer
+        Interaktion auszuschließen, prosoziales Verhalten erhöht. Dies wird mit einer Kontrollgruppe ohne soziale
+        Ausschlussmöglichkeit verglichen. In der Studienbedingung, der Sie gerade zugeordnet waren, bestand eine solche
+        Möglichkeit durch die Entscheidung der anderen Person. Zudem konnte in bisherigen Studien gezeigt werden, dass die
+        Kooperationstendenz eines Menschen auch von der Persönlichkeit einer Person abhängt. Ziel dieser Studie ist, ein
+        genaueres Verständnis davon zu erlangen, welche Persönlichkeitsmerkmale und situativen Faktoren die
+        Kooperationsbereitschaft eines Menschen beeinflussen.<br><br>
+        Wir möchten Sie bitten, den Hintergrund dieser Studie vorerst nicht an potenzielle TeilnehmerInnen dieser Studie zu
+        kommunizieren, da wir sonst mit verfälschten Studienergebnissen rechnen müssen.<br><br>
+        Falls Sie noch Fragen oder Anmerkungen zur Studie haben, können Sie uns jederzeit gerne unter folgender Adresse
+        kontaktieren: dorothee.mischkowski@fernuni-hagen.de<br><br>
+        Erneut herzlichen Dank für Ihre Unterstützung unserer Forschung!<br><br>
+
+        <span style="font-style: italic">Alle Angaben wurden gespeichert. Sie können das Browser-Fenster nun schließen.</span>
+    </p>
+{% endblock %}
+
+
