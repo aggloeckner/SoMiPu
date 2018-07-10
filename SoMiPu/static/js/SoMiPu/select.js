@@ -175,7 +175,7 @@ function checkSmilies() {
 function checkSliderFF() {
 
     // freundlich-feinselig
-    var ff_slider = $("input[name='fb_ff']");
+    var ff_slider = $("input[name$='fb_ff']");
     if (ff_slider.length == 1) {
         if ($(ff_slider).val() == '-9') {
             if ($('#vas_ff').visible() == false) {
