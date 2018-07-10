@@ -130,26 +130,22 @@ class Player(BasePlayer):
 
     # Persoenliche Angaben
 
-    participant_sex = models.IntegerField\
-            (choices=[
-                [0, 'Bitte wählen Sie'],
-                [1, 'weiblich'],
-                [2, 'männlich'],
-                [3, 'divers'],
-            ]
-    )
+    participant_sex = models.IntegerField(
+        choices=[
+            [1, 'weiblich'],
+            [2, 'männlich'],
+            [3, 'divers'] ],
+        widget=widgets.RadioSelect )
 
-    participant_lang_skills = models.IntegerField\
-            (choices=[
-                [0, 'Bitte wählen Sie'],
-                [1, 'Muttersprache'],
-                [2, 'sehr gut'],
-                [3, 'gut'],
-                [4, 'befriedigend'],
-                [5, 'ausreichend'],
-                [6, 'mangelhaft'],
-            ]
-    )
+    participant_lang_skills = models.IntegerField(
+        choices=[
+            [1, 'Muttersprache'],
+            [2, 'sehr gut'],
+            [3, 'gut'],
+            [4, 'befriedigend'],
+            [5, 'ausreichend'],
+            [6, 'mangelhaft'] ],
+        widget=widgets.RadioSelect )
 
     participant_age = models.IntegerField(min=18, max=99)
 
