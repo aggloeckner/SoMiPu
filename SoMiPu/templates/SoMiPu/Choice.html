@@ -26,22 +26,33 @@
                     <input type="checkbox" id="{{ choiceList.2.id }}" name="{{ choiceName }}" value="{{ choiceList.2.value }}"/>
                 </td>
             </tr>
-            <tr>
-                <td colspan="3" style="height:40px">
-                    <div id="choiceMsg" style="display:none; background-color:Yellow; text-align:center">
-                        <p>Bitte wählen Sie eines der drei Objekte aus.</p>
-                    </div>
-                </td>
-            </tr>
+            {% if not feedback %}
+                <tr>
+                    <td colspan="3" style="height:40px">
+                        <div id="choiceMsg" style="display:none; background-color:Yellow; text-align:center">
+                            <p>Bitte wählen Sie eines der drei Objekte aus.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
         </table>
      </div>
 
-    <input type="hidden" name="firstChoice" value="{{ firstChoice }}"/>
-    <input type="hidden" name="secondChoice" value=""/>
+    {% if not feedback %}
+        <input type="hidden" name="firstChoice" value="{{ firstChoice }}"/>
+        <input type="hidden" name="secondChoice" value=""/>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-	        showChoice("choice", "{{ firstChoice }}");
-	    });
+        <script type="text/javascript">
+            $(document).ready(function(){
+    	        showChoice("choice", "{{ firstChoice }}");
+    	    });
 
-    </script>
+        </script>
+    {% else %}
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    showChoiceLeft("choice", "{{ firstChoice }}", "{{ secondChoice }}");
+                });
+
+            </script>
+    {% endif %}

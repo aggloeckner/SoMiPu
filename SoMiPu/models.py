@@ -218,6 +218,18 @@ class Player(BasePlayer):
             raise AssertionError("First choice not set!")
         return ret
 
+    def get_secondchoice(self):
+        ret = self.get_sp().secondChoice
+        if ret is None or ret == "":
+            raise AssertionError("Second choice not set!")
+        return ret
+
+    def get_smilyfeedback(self):
+        ret = self.get_sp().fb_s
+        if ret is None:
+            raise AssertionError("Smily feedback not set!")
+        return ret
+
     def check_consistency(self):
         mycode = self.participant.code
         fpcode = self.get_fp().participant.code

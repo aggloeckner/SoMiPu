@@ -11,7 +11,7 @@
 
     <div align="center">
 
-    {% include "SoMiPu/ChoiceLeft.html" %}
+    {% include "SoMiPu/Choice.html" %}
 
     </div>
 
@@ -27,13 +27,11 @@
 
     </div>
 
-
-    <div style="display: {{ ExclusionaryThreat }}"><br>
-    Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
-    Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
-    <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.
-
-    <br><br></div>
+    {% if ExclusionaryThreat %}
+        Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
+        Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
+        <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.<br><br>
+    {% endif %}
 
 
     Um fortzufahren, wählen Sie bitte "weiter".

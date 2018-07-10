@@ -1,29 +1,29 @@
 {% load staticfiles %}
 {% load static %}
 
-    <div id="choiceLeft">
+    <div id="choice">
 
         <table style="border:0;">
             <tr >
-                <td width="{{ choiceList.0.columnWidth }}" align="center">
-                    <img checkId="img0" src="{% get_static_prefix %}{{ choiceList.0.url }}" width="{{ choiceList.0.width }}"/>
+                <td width="{{ choiceColumnWidth }}" align="center">
+                    <img checkId="{{ choiceList.0.id }}" src="{% get_static_prefix %}{{ choiceList.0.url }}" width="{{ choiceWidth }}"/>
                 </td>
-                <td width="{{ choiceList.1.columnWidth }}" align="center">
-                    <img checkId="img1" src="{% get_static_prefix %}{{ choiceList.1.url }}" width="{{ choiceList.1.width }}"/>
+                <td width="{{ choiceColumnWidth }}" align="center">
+                    <img checkId="{{ choiceList.1.id }}" src="{% get_static_prefix %}{{ choiceList.1.url }}" width="{{ choiceWidth }}"/>
                 </td>
-                <td width="{{ choiceList.2.columnWidth }}" align="center">
-                    <img checkId="img2" src="{% get_static_prefix %}{{ choiceList.2.url }}" width="{{ choiceList.2.width }}"/>
+                <td width="{{ choiceColumnWidth }}" align="center">
+                    <img checkId="{{ choiceList.2.id }}" src="{% get_static_prefix %}{{ choiceList.2.url }}" width="{{ choiceWidth }}"/>
                 </td>
             </tr>
             <tr>
                 <td align="center">
-                    <input type="checkbox" id="{{ choiceList.0.id }}"/>
+                    <input type="checkbox" id="{{ choiceList.0.id }}" name="{{ choiceName }}" value="{{ choiceList.0.value }}"/>
                 </td>
                 <td align="center">
-                    <input type="checkbox" id="{{ choiceList.1.id }}"/>
+                    <input type="checkbox" id="{{ choiceList.1.id }}" name="{{ choiceName }}" value="{{ choiceList.1.value }}"/>
                 </td>
                 <td align="center">
-                    <input type="checkbox" id="{{ choiceList.2.id }}"/>
+                    <input type="checkbox" id="{{ choiceList.2.id }}" name="{{ choiceName }}" value="{{ choiceList.2.value }}"/>
                 </td>
             </tr>
         </table>
