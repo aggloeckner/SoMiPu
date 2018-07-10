@@ -19,6 +19,7 @@ SMILEY_LIST_WIDTH   = 500
 # Base class for all trials including example trials
 class SoMiPu_Trial(Page):
     def SoMiPu_Vars(self):
+        self.player.check_consistency()
         ret = {
             "condition"         : self.player.condition(),
             "role"              : self.player.role(),
@@ -31,88 +32,87 @@ class SoMiPu_Trial(Page):
 
 class SoMiPu_MainTrial(SoMiPu_Trial):
 
-    def repeat(self):
-        raise NotImplementedError("repeat not implemented for base MainTrial")
-
     def get_form_fields(self):
-        ret = [ 'stimulus_{}', 'stimulus_name_{}', 'subtrial_{}',
-                'single_{}', 'double_{}',
-                'item1_{}', 'item2_{}', 'item3_{}' ]
+        ret = [ 'stimulus', 'stimulus_name', 'trial', 'subtrial', 'repeat',
+                'single', 'double',
+                'item1', 'item2', 'item3',
+                'firstChoice', 'choice' ]
 
-        if self.player.is_first():
-            ret.append("firstChoice_{}")
-        else:
-            ret.append("secondChoice_{}")
+        if self.player.is_second():
+            ret.append("secondChoice")
+            ret.append("fb_ff")
+            if self.player.is_experimental():
+                ret.append("fb_s")
+            if self.player.repeat_name( self.round_number ) == "b":
+                ret.append("fb_fb")
 
-        ret = [s.format( self.repeat() ) for s in ret]
         return ret
 
 
     def vars_for_template(self):
         ret = self.SoMiPu_Vars()
 
-        trial = self.player.get_trial(self.round_number)
-        tid   = trial["Trial"]
-        item  = trial["Item"]
-        vr1   = trial["Variety1"]
-        vr2   = trial["Variety2"]
+        trial  = self.player.get_trial(self.round_number)
+        stid   = trial["Trial"]
+        tidx   = self.player.trial_idx( self.round_number )
+        repeat = self.player.repeat_name( self.round_number )
+        item   = trial["Item"]
+        vr1    = trial["Variety1"]
+        vr2    = trial["Variety2"]
 
         subtrial  = self.player.get_subtrial(self.round_number)
         itemOrder = self.player.get_itemOrder(self.round_number, subtrial)
 
-        ret["repeat"]           = self.repeat()
-        ret["stimulus"]         = tid
+        ret["repeat"]           = repeat
+        ret["stimulus"]         = stid
         ret["stimulus_name"]    = item
+        ret["trial"]            = tidx
         ret["subtrial"]         = subtrial
 
-        if self.repeat() == "a":
-            if subtrial == 0:
-                # Subtrial 0:
-                # First item single, second item double
-                ret["single"] = vr1
-                ret["double"] = vr2
-            else:
-                # Subtrial 1:
-                # First item double, second item single
-                ret["double"] = vr1
-                ret["single"] = vr2
+        if subtrial == 0:
+            # Subtrial 0:
+            # First item single, second item double
+            single = vr1
+            double = vr2
         else:
-            if subtrial == 0:
-                # Subtrial 0:
-                # First item double, second item single
-                ret["single"] = vr2
-                ret["double"] = vr1
-            else:
-                # Subtrial 1:
-                # First item single, second item double
-                ret["double"] = vr2
-                ret["single"] = vr1
+            # Subtrial 1:
+            # First item double, second item single
+            single = vr2
+            double = vr1
+
+        ret["single"] = single
+        ret["double"] = double
+    
 
         choiceList = [
-            { "id"      :   "item_{}{}_1".format(tid,self.repeat()),
+            { "id"      :   "item_{}{}_1".format(stid, repeat),
               "value"   :   "single",
-              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["single"]) },
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,single) },
 
-            { "id"      :   "item_{}{}_2".format(tid,self.repeat()),
+            { "id"      :   "item_{}{}_2".format(stid,repeat),
               "value"   :   "double",
-              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["double"]) },
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,double) },
 
-            { "id"      :   "item_{}{}_3".format(tid,self.repeat()),
+            { "id"      :   "item_{}{}_3".format(stid,repeat),
               "value"   :   "double",
-              "url"     :   "img/SoMiPu/{}_{}.png".format(item,ret["double"]) } ]
+              "url"     :   "img/SoMiPu/{}_{}.png".format(item,double) } ]
 
         ret["choiceList"] = [choiceList[itemOrder[i]] for i in range(3)]
 
-        if self.repeat() == "a":
-            ret["ExclusionaryThreat"] = False
-        else:
-            ret["ExclusionaryThreat"] = True
+        ret["ExclusionaryThreat"] = (repeat == "b")
+
+        ret["choiceName"] = "choice"
 
         if self.player.is_first():
-            ret["choiceName"] = "firstChoice_{}".format(self.repeat())
             ret["firstChoice"]  = ""
         else:
-            ret["choiceName"] = "secondChoice_{}".format(self.repeat())
+            ret["firstChoice"] = self.player.get_firstchoice()
+
+        ret["smilyName"] = "fb_s"
+        ret["smilyFeedback"] = ""
+
+        if not (ret["firstChoice"] == "" or ret["firstChoice"] in [c["id"] for c in choiceList]):
+            raise AssertionError("First choice {} not a valid first choice!".format(ret["firstChoice"]))
 
         return ret
 
@@ -213,12 +213,7 @@ class Example(SoMiPu_Trial):
 
             }]
 
-        ret["smilyList"] = [
-            {"id": "cbs1", "name": "example_fb_s1"},
-            {"id": "cbs2", "name": "example_fb_s2"},
-            {"id": "cbs3", "name": "example_fb_s3"},
-            {"id": "cbs4", "name": "example_fb_s4"},
-            {"id": "cbs5", "name": "example_fb_s5"} ]
+        ret["smilyName"] = "smily_example"
 
         if self.player.is_second():
             ret["firstChoice"]   = "example0"
@@ -234,58 +229,35 @@ class Example(SoMiPu_Trial):
 
 
 
-class Trials_FP_A (SoMiPu_MainTrial):
+class Trials_FP (SoMiPu_MainTrial):
     template_name = "SoMiPu/Trials_FirstPlayer.html"
     form_model = models.Player
-
-    def repeat(self):
-        return "a"
 
     def is_displayed(self):
         return self.player.is_first()
 
 
-class Wait_FP_A(SoMiPu_Wait):
+class Wait_Trials_FP(SoMiPu_Wait):
     pass
 
 
-class Trials_SP_A (SoMiPu_MainTrial):
+class Trials_SP (SoMiPu_MainTrial):
     template_name = "SoMiPu/Trials_SecondPlayer.html"
     form_model = models.Player
-
-    def repeat(self):
-        return "a"
 
     def is_displayed(self):
         return self.player.is_second()
 
 
-class Wait_SP_A(SoMiPu_Wait):
+class Wait_Trials_SP(SoMiPu_Wait):
     pass
 
 
-class Trials_FP_B (SoMiPu_MainTrial):
-    template_name = "SoMiPu/Trials_FirstPlayer.html"
-    form_model = models.Player
 
-    def repeat(self):
-        return "b"
 
-    def is_displayed(self):
-        return self.player.is_first()
 
-class Wait_FP_B(SoMiPu_Wait):
-    pass
 
-class Trials_SP_B (SoMiPu_MainTrial):
-    template_name = "SoMiPu/Trials_SecondPlayer.html"
-    form_model = models.Player
 
-    def repeat(self):
-        return "b"
-
-    def is_displayed(self):
-        return self.player.is_second()
 
 class E2_Resolution(Page):
     pass
@@ -9510,18 +9482,10 @@ page_sequence = [
     Example,
 
     # First player does not depend on P2 (no wait!)
-
-    # First set of decisions
-    Trials_FP_A,
-    Wait_FP_A,
-    Trials_SP_A,
-    Wait_SP_A,
-
-    # Second set of decisions
-    Trials_FP_B,
-    Wait_FP_B,
-    Trials_SP_B,
-    Wait_SP_B]
+    Trials_FP,
+    Wait_Trials_FP,
+    Trials_SP,
+    Wait_Trials_SP]
 
 
 
@@ -9672,6 +9636,9 @@ obsolete = [WaitPe,
     T24_ESP,
     WaitPe,
     FB24,
+
+
+    
     WaitPc,
     T1_CFP,
     WaitPc,

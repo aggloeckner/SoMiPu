@@ -17,7 +17,7 @@ Entscheidungsaufgabe mit zwei Personen
 class Constants(BaseConstants):
     name_in_url = 'SoMiPu'
     players_per_group = 2
-    num_rounds = 1
+    num_rounds = 2
 
 
 
@@ -47,129 +47,49 @@ class Player(BasePlayer):
     # Für das Beispiel
     example_choice = models.CharField()
 
-    ##### Fields for A Trials
-
     # id der vom FirstChooser gewaehlten Checkbox
-    firstChoice_a = models.CharField()
+    firstChoice = models.CharField()
 
     # id der vom SecondChooser gewaehlten Checkbox in trial A
-    secondChoice_a = models.CharField()
+    secondChoice = models.CharField()
+
+    # typ des gewählten items
+    choice = models.CharField()
 
     # ID of the stimulus item
-    stimulus_a = models.IntegerField()
+    stimulus = models.IntegerField()
 
     # Name of the stimulus item
-    stimulus_name_a = models.CharField()
+    stimulus_name = models.CharField()
 
-    subtrial_a = models.IntegerField()
+    # trial index in CSV
+    trial = models.IntegerField()
 
-    # Item variety that is displayed once
-    single_a = models.CharField()
+    # Subtrial (which is double / single)
+    subtrial = models.IntegerField()
 
-    # Item variety that is displayed twice
-    double_a = models.CharField()
-
-    # Display order
-    item1_a = models.CharField()
-    item2_a = models.CharField()
-    item3_a = models.CharField()
-
-    ##### Fields for B Trials
-
-    # id der vom FirstChooser gewaehlten Checkbox
-    firstChoice_b = models.CharField()
-
-    # id der vom SecondChooser gewaehlten Checkbox in trial A
-    secondChoice_b = models.CharField()
-
-    # ID of the stimulus item
-    stimulus_b = models.IntegerField()
-
-    # Name of the stimulus item
-    stimulus_name_b = models.CharField()
-
-    subtrial_b = models.IntegerField()
+    # Repeat (a or b)
+    repeat = models.CharField()
 
     # Item variety that is displayed once
-    single_b = models.CharField()
+    single = models.CharField()
 
     # Item variety that is displayed twice
-    double_b = models.CharField()
+    double = models.CharField()
 
     # Display order
-    item1_b = models.CharField()
-    item2_b = models.CharField()
-    item3_b = models.CharField()
-
-    
-    
-
+    item1 = models.CharField()
+    item2 = models.CharField()
+    item3 = models.CharField()    
 
     # Feedback des SecondChoosers (Smilies)
-    trial_1a_fb_s = models.IntegerField()
-    trial_1b_fb_s = models.IntegerField()
-    trial_2a_fb_s = models.IntegerField()
-    trial_2b_fb_s = models.IntegerField()
-    trial_3a_fb_s = models.IntegerField()
-    trial_3b_fb_s = models.IntegerField()
-    trial_4a_fb_s = models.IntegerField()
-    trial_4b_fb_s = models.IntegerField()
-    trial_5a_fb_s = models.IntegerField()
-    trial_5b_fb_s = models.IntegerField()
-    trial_6a_fb_s = models.IntegerField()
-    trial_6b_fb_s = models.IntegerField()
-    trial_7a_fb_s = models.IntegerField()
-    trial_7b_fb_s = models.IntegerField()
-    trial_8a_fb_s = models.IntegerField()
-    trial_8b_fb_s = models.IntegerField()
-    trial_9a_fb_s = models.IntegerField()
-    trial_9b_fb_s = models.IntegerField()
-    trial_10a_fb_s = models.IntegerField()
-    trial_10b_fb_s = models.IntegerField()
-    trial_11a_fb_s = models.IntegerField()
-    trial_11b_fb_s = models.IntegerField()
-    trial_12a_fb_s = models.IntegerField()
-    trial_12b_fb_s = models.IntegerField()
+    fb_s = models.IntegerField()
 
     # Feedback des SecondChoosers (Slider freundlich-feindselig)
-    trial_1a_fb_ff = models.IntegerField()
-    trial_1b_fb_ff = models.IntegerField()
-    trial_2a_fb_ff = models.IntegerField()
-    trial_2b_fb_ff = models.IntegerField()
-    trial_3a_fb_ff = models.IntegerField()
-    trial_3b_fb_ff = models.IntegerField()
-    trial_4a_fb_ff = models.IntegerField()
-    trial_4b_fb_ff = models.IntegerField()
-    trial_5a_fb_ff = models.IntegerField()
-    trial_5b_fb_ff = models.IntegerField()
-    trial_6a_fb_ff = models.IntegerField()
-    trial_6b_fb_ff = models.IntegerField()
-    trial_7a_fb_ff = models.IntegerField()
-    trial_7b_fb_ff = models.IntegerField()
-    trial_8a_fb_ff = models.IntegerField()
-    trial_8b_fb_ff = models.IntegerField()
-    trial_9a_fb_ff = models.IntegerField()
-    trial_9b_fb_ff = models.IntegerField()
-    trial_10a_fb_ff = models.IntegerField()
-    trial_10b_fb_ff = models.IntegerField()
-    trial_11a_fb_ff = models.IntegerField()
-    trial_11b_fb_ff = models.IntegerField()
-    trial_12a_fb_ff = models.IntegerField()
-    trial_12b_fb_ff = models.IntegerField()
+    fb_ff = models.IntegerField()
 
     # Feedback des SecondChoosers (Slider fortsetzen-beenden)
-    trial_1b_fb_fb = models.IntegerField()
-    trial_2b_fb_fb = models.IntegerField()
-    trial_3b_fb_fb = models.IntegerField()
-    trial_4b_fb_fb = models.IntegerField()
-    trial_5b_fb_fb = models.IntegerField()
-    trial_6b_fb_fb = models.IntegerField()
-    trial_7b_fb_fb = models.IntegerField()
-    trial_8b_fb_fb = models.IntegerField()
-    trial_9b_fb_fb = models.IntegerField()
-    trial_10b_fb_fb = models.IntegerField()
-    trial_11b_fb_fb = models.IntegerField()
-    trial_12b_fb_fb = models.IntegerField()
+    fb_fb = models.IntegerField()
 
     # Abbruch nach 12. Trial durch SecondChooser
     terminate_interaction = models.BooleanField()
@@ -253,16 +173,27 @@ class Player(BasePlayer):
         trials = self.session.vars["SoMiPu_Trials"].keys()
         tids = list( trials )
         random.shuffle( tids )
-        self.participant.vars["SoMiPu_Order"]     = tids
-        self.participant.vars["SoMiPu_CompFirst"] = [random.randrange(2) for _ in tids]
-
-
+        
+        subOrder = [[0,1] for _ in tids]
         itemOrder = [[[0,1,2],[0,1,2]] for _ in tids]
-        for i,_ in enumerate(itemOrder):
+        for i,_ in enumerate(tids):
+            random.shuffle( subOrder[i] )
             for j,_ in enumerate(itemOrder[i]):
                 random.shuffle( itemOrder[i][j] )
 
+        self.participant.vars["SoMiPu_Order"]     = tids
+        self.participant.vars["SoMiPu_SubOrder"]  = subOrder
         self.participant.vars["SoMiPu_ItemOrder"] = itemOrder
+
+    def trial_idx(self, round_number):
+        return int( (round_number -1 ) / 2)
+
+    def repeat_idx(self, round_number):
+        return (round_number - 1) % 2
+
+    def repeat_name(self, round_number):
+        repeats = ["a", "b"]
+        return repeats[ self.repeat_idx( round_number )]
 
     def get_fp(self):
         return self.group.get_player_by_role('FirstChooser')
@@ -271,16 +202,22 @@ class Player(BasePlayer):
         return self.group.get_player_by_role('SecondChooser')
 
     def get_order(self, round_number):
-        return self.get_fp().participant.vars["SoMiPu_Order"][round_number - 1]
+        return self.get_fp().participant.vars["SoMiPu_Order"][ self.trial_idx( round_number ) ]
 
     def get_trial(self, round_number):
         return self.session.vars["SoMiPu_Trials"][ self.get_order( round_number ) ]
 
     def get_subtrial(self, round_number):
-        return self.get_fp().participant.vars["SoMiPu_CompFirst"][ round_number - 1 ]
+        return self.get_fp().participant.vars["SoMiPu_SubOrder"][ self.trial_idx( round_number ) ][ self.repeat_idx( round_number ) ]
 
     def get_itemOrder(self, round_number, subtrial):
-        return self.get_fp().participant.vars["SoMiPu_ItemOrder"][ round_number - 1 ][ subtrial ]
+        return self.get_fp().participant.vars["SoMiPu_ItemOrder"][ self.trial_idx( round_number ) ][ subtrial ]
+
+    def get_firstchoice(self):
+        ret = self.get_fp().firstChoice
+        if ret is None or ret == "":
+            raise AssertionError("First choice not set!")
+        return ret
 
     def check_consistency(self):
         mycode = self.participant.code
