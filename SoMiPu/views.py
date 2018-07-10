@@ -361,28 +361,16 @@ class CB1_AP (Page):
         self.player.check_consistency()
         return self.player.is_fulltime()
 
-class CB2_FP(Page):
-    template_name = "SoMiPu/Checkbox2_FirstPlayers.html"
+class CB2_AP(Page):
+    template_name = "SoMiPu/Checkbox2_AllPlayers.html"
     form_model = models.Player
+    form_fields = ['overall_fb_tx1', 'overall_fb_tx2', 'overall_fb_tx3']
 
-    def get_form_fields(self):
-        return ['overall_fb_tx1', 'overall_fb_tx2', 'overall_fb_tx3']
+    def vars_for_template(self):
+        return {"role": self.player.role()}
 
     def is_displayed(self):
-        return (
-            self.player.is_first() and
-            self.player.is_fulltime() )
-
-class CB2_SP(Page):
-    template_name = "SoMiPu/Checkbox2_SecondPlayers.html"
-    form_model = models.Player
-    def get_form_fields(self):
-        return ['overall_fb_tx1', 'overall_fb_tx2']
-    
-    def is_displayed(self):
-        return (
-            self.player.is_second() and
-            self.player.is_fulltime() )
+        return self.player.is_fulltime()
 
 class A_PersonalData(Page):
     form_model = models.Player
@@ -589,8 +577,7 @@ page_sequence = [
     Wait_Trials_SP,
     Exp_FB,
     CB1_AP,
-    CB2_FP,
-    CB2_SP,
+    CB2_AP,
     A_PersonalData,
     C_LastPage,
     E1_LastPageFI,

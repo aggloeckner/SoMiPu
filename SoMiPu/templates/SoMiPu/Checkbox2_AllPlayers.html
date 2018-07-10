@@ -1,0 +1,28 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Fragen zur Teilnahme
+{% endblock %}
+
+{% block content %}
+    <p>
+        <span style="font-style: italic">Raum für Ihre Mitteilungen an uns ...</span><br>
+    </p><br>
+
+    {% if role == "FirstChooser" %}
+        {% formfield player.overall_fb_tx1 label="Was hat Ihre Wahlentscheidungen maßgeblich beeinflusst? Hatten Sie eine Strategie?" %}
+    {% else %}
+        <input type="hidden" name="overall_fb_tx1" value=""/>
+    {% endif %}
+
+    {% formfield player.overall_fb_tx2 label="Haben Sie weitere Anmerkungen zur Studie oder ist Ihnen etwas Bestimmtes aufgefallen?" %}
+    {% formfield player.overall_fb_tx3 label="Was wurde Ihrer Ansicht nach in dieser Studie untersucht??" %} 
+
+    Wenn Sie alle Fragen beantwortet haben, wählen Sie bitte "weiter".
+
+</p><br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
+
+{% endblock %}
