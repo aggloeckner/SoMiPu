@@ -384,9 +384,7 @@ class C_LastPage (Page):
     def is_displayed(self):
         return self.player.is_control() and self.player.is_fulltime()
 
-class E1_LastPage(Page):
-    template_name = "SoMiPu/E1_LastPage.html"
-
+class E_LastPage(Page):
     def vars_for_template(self):
         return { "hasTerminated": self.player.has_terminated() }
 
@@ -402,7 +400,7 @@ class E2_LastPage (Page):
 
     def vars_for_template(self):
         return { "hasTerminated": self.player.has_terminated() }
-        
+
     def is_displayed(self):
         return(
             self.player.is_experimental() and
@@ -430,5 +428,4 @@ page_sequence = [
     CB2_AP,
     A_PersonalData,
     C_LastPage,
-    E1_LastPage,
-    E2_LastPage ]
+    E_LastPage ]
