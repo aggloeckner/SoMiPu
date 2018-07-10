@@ -306,7 +306,6 @@ class FB_RTF(Page):
     form_model = models.Player
 
     def get_form_fields(self):
-
         return ['reason_to_finish']
 
     def is_displayed(self):
@@ -350,9 +349,9 @@ class Exp_FB(SoMiPu_MainTrial):
             self.player.has_not_terminated() )
 
 
-class Exp_FP_CI(SoMiPu_MainTrial):
+class Exp_FB_HT(SoMiPu_MainTrial):
     form_model = models.Player
-    template_name = "SoMiPu/Feedback12_ContinueInteraction_FirstPlayer.html"
+    template_name = "SoMiPu/Experimental_Feedback_Half_Time_FirstPlayer.html"
 
     def get_form_fields(self):
         return []
@@ -362,6 +361,7 @@ class Exp_FP_CI(SoMiPu_MainTrial):
         ret["firstChoice"] = self.player.get_firstchoice()
         ret["secondChoice"] = self.player.get_secondchoice()
         ret["smilyFeedback"] = self.player.get_smilyfeedback()
+        ret["has_terminated"] = self.player.has_terminated()
         ret["feedback"] = True
 
         return ret
@@ -371,48 +371,89 @@ class Exp_FP_CI(SoMiPu_MainTrial):
         return (
             self.player.is_first() and 
             self.player.is_experimental() and
-            self.player.has_not_terminated() and
             self.player.is_halftime() )
 
-
-class Exp_FP_FB_TI1(SoMiPu_MainTrial):
+class CB1_AP (Page):
+    template_name = "SoMiPu/Checkbox1_AllPlayers.html"
     form_model = models.Player
-    template_name = "SoMiPu/Feedback12_FinishInteraction_FirstPlayer1.html"
+    
+    def get_form_fields(self):
+        return ['overall_fb_cb1', 'overall_fb_cb2','overall_fb_cb3', 'overall_fb_cb4','overall_fb_cb5', 'overall_fb_cb6']
+    
+    def is_displayed(self):
+        self.player.check_consistency()
+        return self.player.is_fulltime()
+
+class CB2_FP(Page):
+    template_name = "SoMiPu/Checkbox2_FirstPlayers.html"
+    form_model = models.Player
 
     def get_form_fields(self):
-        return []
-
-    def vars_for_template(self):
-        ret = super(Exp_FP_CI, self).vars_for_template()
-        ret["firstChoice"] = self.player.get_firstchoice()
-        ret["secondChoice"] = self.player.get_secondchoice()
-        ret["smilyFeedback"] = self.player.get_smilyfeedback()
-        ret["feedback"] = True
-
-        return ret
+        return ['overall_fb_tx1', 'overall_fb_tx2', 'overall_fb_tx3']
 
     def is_displayed(self):
-        self.player.check_consistency()
-        return (
-            self.player.is_first() and 
-            self.player.is_experimental() and
-            self.player.has_terminated() and
-            self.player.is_halftime() )
-
-class Exp_FP_FB_TI2(Page):
-    template_name = "SoMiPu/Feedback12_FinishInteraction_FirstPlayer2.html"
-
-    def is_displayed(self):
-        self.player.check_consistency()
         return (
             self.player.is_first() and
+            self.player.is_fulltime() )
+
+class CB2_SP(Page):
+    template_name = "SoMiPu/Checkbox2_SecondPlayers.html"
+    form_model = models.Player
+    def get_form_fields(self):
+        return ['overall_fb_tx1', 'overall_fb_tx2']
+    
+    def is_displayed(self):
+        return (
+            self.player.is_second() and
+            self.player.is_fulltime() )
+
+class A_PersonalData(Page):
+    form_model = models.Player
+    def get_form_fields(self):
+        return ['participant_sex', 'participant_age', 'participant_lang_skills']
+
+    def is_displayed(self):
+        return self.player.is_fulltime()
+
+class C_LastPage (Page):
+    def is_displayed(self):
+        return self.player.is_control() and self.player.is_fulltime()
+
+class E1_LastPageFI(Page):
+    template_name = "SoMiPu/E1_LastPage_FI.html"
+    def is_displayed(self):
+        return (
             self.player.is_experimental() and
+            self.player.is_first() and
             self.player.has_terminated() and
-            self.player.is_halftime() )
+            self.player.is_fulltime() )
 
-class E2_Resolution(Page):
-    pass
+class E1_LastPageCI(Page):
+    template_name = "SoMiPu/E1_LastPage_CI.html"
+    def is_displayed(self):
+        return (
+            self.player.is_experimental() and
+            self.player.is_first() and
+            self.player.has_not_terminated() and
+            self.player.is_fulltime() )
 
+class E2_LastPageFI (Page):
+    template_name = "SoMiPu/E2_LastPage_FI.html"
+    def is_displayed(self):
+        return(
+            self.player.is_experimental() and
+            self.player.is_second() and
+            self.player.has_terminated() and
+            self.player.is_fulltime() )
+
+class E2_LastPageCI (Page):
+    template_name = "SoMiPu/E2_LastPage_CI.html"
+    def is_displayed(self):
+        return(
+            self.player.is_experimental() and
+            self.player.is_second() and
+            self.player.has_not_terminated() and
+            self.player.is_fulltime() )
 
 
 class T24_CFP(Page):
@@ -554,127 +595,6 @@ class T24_CSP(Page):
     def before_next_page(self):
         self.player.__setattr__('payoff', c(4))
 
-class E2_A(Page):
-    template_name = "SoMiPu/E2_Assess.html"
-
-    smilyListWidth = 500
-    smilyImgUrl = "img/SoMiPu/Smiley-Skala.png"
-
-    smilyList = [
-        {"id": "cbs1"},
-        {"id": "cbs2"},
-        {"id": "cbs3"},
-        {"id": "cbs4"},
-        {"id": "cbs5"}
-    ]
-
-    def vars_for_template(self):
-        return {
-            'smilyListWidth': self.smilyListWidth,
-            'smilyImgUrl': self.smilyImgUrl,
-            'smilyList': self.smilyList,
-            }
-
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-                and self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-
-class A_PersonalData(Page):
-    form_model = models.Player
-    def get_form_fields(self):
-        return ['participant_sex', 'participant_age', 'participant_lang_skills']
-
-
-
-class CB1_AP (Page):
-    template_name = "SoMiPu/Checkbox1_AllPlayers.html"
-    form_model = models.Player
-    def get_form_fields(self):
-        return ['overall_fb_cb1', 'overall_fb_cb2','overall_fb_cb3', 'overall_fb_cb4','overall_fb_cb5', 'overall_fb_cb6']
-    pass
-
-
-class CB2_FP(Page):
-    template_name = "SoMiPu/Checkbox2_FirstPlayers.html"
-    form_model = models.Player
-
-    def get_form_fields(self):
-        return ['overall_fb_tx1', 'overall_fb_tx2', 'overall_fb_tx3']
-
-    def is_displayed(self):
-
-        if self.player.role() == 'FirstChooser':
-            return True
-        else:
-            return False
-
-class CB2_SP(Page):
-    template_name = "SoMiPu/Checkbox2_SecondPlayers.html"
-    form_model = models.Player
-    def get_form_fields(self):
-        return ['overall_fb_tx1', 'overall_fb_tx2']
-    
-    def is_displayed(self):
-
-        if self.player.role() == 'SecondChooser':
-            return True
-        else:
-            return False
-
-
-
-class C_LastPage (Page):
-    def is_displayed(self):
-
-        if (self.player.session.config['treatment'] == "control" or self.player.treatment == "control") :
-           return True
-        else:
-            return False
-
-class E1_LastPageFI(Page):
-    template_name = "SoMiPu/E1_LastPage_FI.html"
-    def is_displayed(self):
-
-         if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-            and self.player.role() == 'FirstChooser' and self.player.__getattribute__('terminate_interaction') is True:
-            return True
-         else:
-            return False
-
-class E1_LastPageCI(Page):
-    template_name = "SoMiPu/E1_LastPage_CI.html"
-    def is_displayed(self):
-
-         if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-            and self.player.role() == 'FirstChooser' and self.player.__getattribute__('terminate_interaction') is False:
-            return True
-         else:
-            return False
-
-class E2_LastPageFI (Page):
-    template_name = "SoMiPu/E2_LastPage_FI.html"
-    def is_displayed(self):
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-            and self.player.role() == 'SecondChooser' and self.player.__getattribute__('terminate_interaction') is True:
-            return True
-        else:
-            return False
-
-class E2_LastPageCI (Page):
-    template_name = "SoMiPu/E2_LastPage_CI.html"
-    def is_displayed(self):
-        if (self.player.session.config['treatment'] == "experimental" or self.player.treatment == "experimental") \
-            and self.player.role() == 'SecondChooser' and self.player.__getattribute__('terminate_interaction') is False:
-            return True
-        else:
-            return False
-
-
 page_sequence = [
     # This block only run for round_number == 1
     GroupingWaitPage,
@@ -691,15 +611,7 @@ page_sequence = [
     FB_RTF,
     Wait_Trials_SP,
     Exp_FB,
-    Exp_FP_CI,
-    Exp_FP_FB_TI1,
-    Exp_FP_FB_TI2]
-
-
-
-obsolete = [
-    T24_CFP,
-    T24_CSP,
+    Exp_FB_HT,
     CB1_AP,
     CB2_FP,
     CB2_SP,
@@ -708,7 +620,4 @@ obsolete = [
     E1_LastPageFI,
     E1_LastPageCI,
     E2_LastPageFI,
-    E2_LastPageCI,
-    E2_A,
-    E2_Resolution
-]
+    E2_LastPageCI ]
