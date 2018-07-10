@@ -380,32 +380,16 @@ class A_PersonalData(Page):
     def is_displayed(self):
         return self.player.is_fulltime()
 
-class C_LastPage (Page):
-    def is_displayed(self):
-        return self.player.is_control() and self.player.is_fulltime()
-
-class E_LastPage(Page):
+class LastPage (Page):
     def vars_for_template(self):
-        return { "hasTerminated": self.player.has_terminated() }
+        return { 
+            "hasTerminated": self.player.has_terminated(),
+            "condition":        self.player.condition()
+         }
 
     def is_displayed(self):
-        return (
-            self.player.is_experimental() and
-            self.player.is_first() and
-            self.player.is_fulltime() )
+        return self.player.is_fulltime()
 
-
-class E2_LastPage (Page):
-    template_name = "SoMiPu/E2_LastPage.html"
-
-    def vars_for_template(self):
-        return { "hasTerminated": self.player.has_terminated() }
-
-    def is_displayed(self):
-        return(
-            self.player.is_experimental() and
-            self.player.is_second() and
-            self.player.is_fulltime() )
 
 
 page_sequence = [
@@ -427,5 +411,4 @@ page_sequence = [
     CB1_AP,
     CB2_AP,
     A_PersonalData,
-    C_LastPage,
-    E_LastPage ]
+    LastPage ]
