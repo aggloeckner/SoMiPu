@@ -23,7 +23,10 @@ with open("Trials.csv") as f:
 class Constants(BaseConstants):
     name_in_url = 'SoMiPu'
     players_per_group = 2
-    num_rounds = len(SoMiPu_Trials) * 2
+    full_time = len(SoMiPu_Trials)
+    half_time = full_time / 2
+    num_rounds = full_time * 2
+    
 
 
 
@@ -79,7 +82,10 @@ class Player(BasePlayer):
     # Display order
     item1 = models.CharField()
     item2 = models.CharField()
-    item3 = models.CharField()    
+    item3 = models.CharField()
+
+    # Was an ExclusionaryThreat shown?
+    ExclusionaryThreat = models.BooleanField()
 
     # Feedback des SecondChoosers (Smilies)
     fb_s = models.IntegerField()
@@ -184,15 +190,15 @@ class Player(BasePlayer):
         self.participant.vars["SoMiPu_SubOrder"]  = subOrder
         self.participant.vars["SoMiPu_ItemOrder"] = itemOrder
 
-    def trial_idx(self, round_number):
-        return int( (round_number -1 ) / 2)
+    def trial_idx(self):
+        return int( (self.subsession.round_number -1 ) / 2) + 1
 
-    def repeat_idx(self, round_number):
-        return (round_number - 1) % 2
+    def repeat_idx(self):
+        return (self.subsession.round_number - 1) % 2
 
-    def repeat_name(self, round_number):
+    def repeat_name(self):
         repeats = ["a", "b"]
-        return repeats[ self.repeat_idx( round_number )]
+        return repeats[ self.repeat_idx() ]
 
     def get_fp(self):
         return self.group.get_player_by_role('FirstChooser')
@@ -200,17 +206,20 @@ class Player(BasePlayer):
     def get_sp(self):
         return self.group.get_player_by_role('SecondChooser')
 
-    def get_order(self, round_number):
-        return self.get_fp().participant.vars["SoMiPu_Order"][ self.trial_idx( round_number ) ]
+    def get_order(self):
+        return self.get_fp().participant.vars["SoMiPu_Order"]
 
-    def get_trial(self, round_number):
-        return SoMiPu_Trials[ self.get_order( round_number ) ]
+    def get_item_idx(self):
+        return self.get_order()[ self.trial_idx() - 1 ]
 
-    def get_subtrial(self, round_number):
-        return self.get_fp().participant.vars["SoMiPu_SubOrder"][ self.trial_idx( round_number ) ][ self.repeat_idx( round_number ) ]
+    def get_trial(self):
+        return SoMiPu_Trials[ self.get_item_idx() ]
 
-    def get_itemOrder(self, round_number, subtrial):
-        return self.get_fp().participant.vars["SoMiPu_ItemOrder"][ self.trial_idx( round_number ) ][ subtrial ]
+    def get_subtrial(self):
+        return self.get_fp().participant.vars["SoMiPu_SubOrder"][ self.trial_idx() - 1 ][ self.repeat_idx() ]
+
+    def get_itemOrder(self):
+        return self.get_fp().participant.vars["SoMiPu_ItemOrder"][ self.trial_idx() - 1 ][ self.get_subtrial() ]
 
     def get_firstchoice(self):
         ret = self.get_fp().firstChoice
@@ -229,6 +238,34 @@ class Player(BasePlayer):
         if ret is None:
             raise AssertionError("Smily feedback not set!")
         return ret
+
+    def is_halftime(self):
+        return (self.trial_idx() == Constants.half_time) and (self.repeat_idx() == 1)
+
+    def is_not_halftime(self):
+        return not self.is_halftime()
+
+    def after_halftime(self):
+        return self.trial_idx() > Constants.half_time
+
+    def before_halftime(self):
+        return not self.after_halftime()
+
+    def is_fulltime(self):
+        return (self.trial_idx() == Constants.full_time) and (self.repeat_idx() == 1)
+
+    def is_not_fulltime(self):
+        return not self.is_fulltime()
+
+    def terminate(self):
+        self.get_fp().participant.vars["SoMiPu_terminated"] = True
+        self.get_sp().participant.vars["SoMiPu_terminated"] = True
+
+    def has_terminated(self):
+        return ("SoMiPu_terminated" in self.participant.vars) and self.participant.vars["SoMiPu_terminated"]
+
+    def has_not_terminated(self):
+        return not self.has_terminated()
 
     def check_consistency(self):
         mycode = self.participant.code
@@ -252,5 +289,9 @@ class Player(BasePlayer):
 
 
         # Our condition matches the one from our partner
-        assert self.condition() == self.group.get_player_by_role('FirstChooser').condition()
-        assert self.condition() == self.group.get_player_by_role('SecondChooser').condition()
+        assert self.condition() == self.get_fp().condition()
+        assert self.condition() == self.get_sp().condition()
+
+        # Termination status matches the one from our partner
+        assert self.has_terminated() == self.get_fp().has_terminated()
+        assert self.has_terminated() == self.get_sp().has_terminated()
