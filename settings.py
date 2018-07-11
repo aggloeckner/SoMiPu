@@ -109,6 +109,20 @@ SESSION_CONFIGS = [
         'app_sequence': [ 'SoMiPu_Login', 
                           'SoMiPu'],
         'treatment': ''
+    },
+    {
+        'name': 'SoMiPu_Test_Experimental',
+        'display_name': 'SoMiPu_Test_Experimental',
+        'num_demo_participants': 4,
+        'app_sequence': [ 'SoMiPu'],
+        'treatment': 'experimental'
+    },
+    {
+        'name': 'SoMiPu_Test_Control',
+        'display_name': 'SoMiPu_Test_Control',
+        'num_demo_participants': 4,
+        'app_sequence': [ 'SoMiPu'],
+        'treatment': 'control'
     }
 ]
 
