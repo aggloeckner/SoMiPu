@@ -97,7 +97,11 @@ class Player(BasePlayer):
     fb_fb = models.IntegerField()
 
     # Abbruch nach 12. Trial durch SecondChooser
-    terminate_interaction = models.BooleanField()
+    terminate_interaction = models.BooleanField(
+        choices = [
+            [True, "Interaktion beenden"],
+            [False, "Weiter wählen lassen"] ],
+        widget = widgets.RadioSelectHorizontal)
 
     # Overall Feedback (Slider freundlich-feindselig)
     overall_fb_ff = models.IntegerField()

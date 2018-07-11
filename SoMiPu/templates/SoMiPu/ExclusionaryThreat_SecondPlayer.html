@@ -1,6 +1,25 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree %}
 
+{% block styles %}
+    <style type="text/css">
+        .bold-formheader .col-form-label{
+            font-weight:bold;
+        }
+
+        .wide-choices .controls label{
+            margin-left: 5em;
+            margin-right: 5em;
+        }
+
+        #wide-formbox {
+            margin: 0 auto;
+            text-align: center;
+            width: 70%;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 
      <!--Experimentalgruppe - Trial 12 - Exclusionary Threat - Second Chooser-->
@@ -14,29 +33,15 @@
      ihr <strong>Gegenstände auswählen</strong> können. <strong>Sie erhalten beide </strong>für Ihre Teilnahme <strong>
      jeweils 4€</strong>. <br><br>
 
-     <strong>Wie entscheiden Sie sich?</strong>
-
-     </p><br><br><br>
-
-    <div align="center">
-        <div style="width: 50%;  float: left;">
-        <label style="text-align: center; width: 100%;">
-            <input id="rbTerminate" name="terminate_interaction" type="radio" value = "True"/>
-        <span style="display: block;">Interaktion beenden</span>
-
-        </label>
-        </div>
-
-        <div style="width: 50%;  float: left;">
-        <label style="text-align: center; width: 100%;">
-            <input id="rbGoon" name="terminate_interaction" type="radio" value = "False"/>
-        <span style="display: block;">Weiter wählen lassen</span>
-
-        </label>
-        </div>
-        <br><br><br>
-        <div id="termMsg" align="center" style="display:none; background-color:Yellow; text-align:center; width:100%;">
-            Bitte wählen Sie!
+     </p><br>
+    <div id="wide-formbox">
+        <div class="wide-choices">
+            <div class="bold-formheader">
+                    {% formfield player.terminate_interaction label="Wie entscheiden Sie sich?"%}
+                <div id="terminate_interaction_error" class="error" align="center" style="display:none; background-color:Yellow; text-align:center; width:100%;">
+                    Bitte wählen Sie!
+                </div>
+            </div>
         </div>
     </div>
 
@@ -48,9 +53,14 @@
     <br>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
-
-    {% block scripts %}
-        <script src="{% static 'js/SoMiPu/excthreat.js' %}"></script>
-    {% endblock %}
+    <script>
+        $(".form-group input").on("invalid", function(event){ 
+            $("#" + event.currentTarget.name + "_error").show();
+            return false;
+        });
+        $(".form-group input").on("mouseup", function(event){
+            $("#" + event.currentTarget.name + "_error").hide();
+        });
+    </script>
 
 {% endblock %}
