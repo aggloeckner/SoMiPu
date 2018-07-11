@@ -8,6 +8,7 @@ class A_Login(Page):
 
     def before_next_page(self):
         self.player.participant.vars["decision_lab_id"] = self.player.decision_lab_id
+        self.player.participant.label = self.player.decision_lab_id
 
 class A_Informed_consent(Page):
 	pass
