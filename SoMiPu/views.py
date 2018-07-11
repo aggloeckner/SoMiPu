@@ -12,10 +12,39 @@ import random
 SMILEY_IMG_URL      = "img/SoMiPu/Smiley-Skala.png"
 SMILEY_LIST_WIDTH   = 500
 
+############ Decorators   ###########
+
+def DisplayAt(when):
+    def _wrapper(cls):
+        orig_is_displayed = cls.is_displayed
+        def is_displayed(self):
+            return (orig_is_displayed(self) and when(self) )
+        cls.is_displayed = is_displayed
+        return cls
+    return _wrapper
+
+OnlyFirstRound      = lambda page: page.round_number == 1
+OnlyHalfTime        = lambda page: page.player.is_halftime()
+OnlyFullTime        = lambda page: page.player.is_fulltime()
+OnlyFirstPlayer     = lambda page: page.player.is_first()
+OnlySecondPlayer    = lambda page: page.player.is_second()
+HasNotTerminated    = lambda page: page.player.has_not_terminated()
+HasTerminated       = lambda page: page.player.has_terminated()
+ConditionExp        = lambda page: page.player.is_experimental()
+ConditionCont       = lambda page: page.player.is_control()
+
+
+
 ############ Base classes ###########
 
+class SoMiPu_Page(Page):
+    def is_displayed(self):
+        self.player.check_consistency()
+        return True
+
+
 # Base class for all trials including example trials
-class SoMiPu_Trial(Page):
+class SoMiPu_Trial(SoMiPu_Page):
     def vars_for_template(self):
         ret = {
             "condition"         : self.player.condition(),
@@ -120,11 +149,15 @@ class SoMiPu_Wait(WaitPage):
         return {'body_text': "Sobald die andere Person ihre Wahl getroffen hat, geht es weiter.",
                 'title_text': "Bitte warten Sie ..."}
 
+    def is_displayed(self):
+        self.player.check_consistency()
+        return True
+
 
 
 ############# Actual Pages ###########
 
-
+@DisplayAt(OnlyFirstRound)
 class GroupingWaitPage(WaitPage):
     group_by_arrival_time = True
 
@@ -152,20 +185,17 @@ class GroupingWaitPage(WaitPage):
         return {'body_text': "Sobald die nächste Person eintrifft, geht es los.",
                 'title_text': "Bitte warten Sie."}
 
-    def is_displayed(self):
-        return self.round_number == 1
 
-class Decision(Page):
+@DisplayAt(OnlyFirstRound)
+class Decision(SoMiPu_Page):
     def vars_for_template(self):
         return {
             "condition" : self.player.condition(),
             "role"      : self.player.role()
         }
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.round_number == 1
 
+@DisplayAt(OnlyFirstRound)
 class Example(SoMiPu_Trial):
     form_model = 'player'
     form_fields = ['example_choice']
@@ -208,34 +238,25 @@ class Example(SoMiPu_Trial):
         # 2 more points if the last page is reached
         self.player.payoff = c(2)
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.round_number == 1
-
-
-
+@DisplayAt(HasNotTerminated)
+@DisplayAt(OnlyFirstPlayer)
 class Trials_FP (SoMiPu_MainTrial):
     template_name = "SoMiPu/Trials_FirstPlayer.html"
     form_model = models.Player
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.player.is_first() and self.player.has_not_terminated()
 
-
+@DisplayAt(HasNotTerminated)
 class Wait_Trials_FP(SoMiPu_Wait):
-    def is_displayed(self):
-        return self.player.has_not_terminated()
+    pass
 
-
+@DisplayAt(HasNotTerminated)
+@DisplayAt(OnlySecondPlayer)
 class Trials_SP (SoMiPu_MainTrial):
     template_name = "SoMiPu/Trials_SecondPlayer.html"
     form_model = models.Player
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.player.is_second() and self.player.has_not_terminated()
-
+@DisplayAt(OnlyHalfTime)
+@DisplayAt(OnlySecondPlayer)
 class OFB_SP_HT(SoMiPu_Trial):
     template_name = "SoMiPu/Overall_Feedback_SecondPlayer_Half_Time.html"
     form_model = models.Player
@@ -251,10 +272,9 @@ class OFB_SP_HT(SoMiPu_Trial):
 
         return ret
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.player.is_second() and self.player.is_halftime()
-
+@DisplayAt(OnlyFullTime)
+@DisplayAt(HasNotTerminated)
+@DisplayAt(OnlySecondPlayer)
 class OFB_SP(SoMiPu_Trial):
     template_name = "SoMiPu/Overall_Feedback_SecondPlayer.html"
     form_model = models.Player
@@ -269,12 +289,10 @@ class OFB_SP(SoMiPu_Trial):
 
         return ret
 
-    def is_displayed(self):
-        return (
-            self.player.is_second() and
-            self.player.has_not_terminated() and
-            self.player.is_fulltime() )
 
+@DisplayAt(OnlyHalfTime)
+@DisplayAt(ConditionExp)
+@DisplayAt(OnlySecondPlayer)
 class HT_ExTh(Page):
     template_name = "SoMiPu/ExclusionaryThreat_SecondPlayer.html"
     form_model = models.Player
@@ -283,20 +301,17 @@ class HT_ExTh(Page):
         fields = ['terminate_interaction']
         return fields
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return ( 
-            self.player.is_second() and 
-            self.player.is_experimental() and 
-            self.player.is_halftime() )
-
-
     def before_next_page(self):
         terminate = self.player.terminate_interaction
         self.player.get_fp().terminate_interaction = terminate
         if terminate:
             self.player.terminate()
 
+
+@DisplayAt(HasTerminated)
+@DisplayAt(OnlyHalfTime)
+@DisplayAt(ConditionExp)
+@DisplayAt(OnlySecondPlayer)
 class FB_RTF(Page):
     template_name = "SoMiPu/Reason_To_Finish_SecondPlayer.html"
     form_model = models.Player
@@ -304,20 +319,15 @@ class FB_RTF(Page):
     def get_form_fields(self):
         return ['reason_to_finish']
 
-    def is_displayed(self):
-        self.player.check_consistency()
-        return (
-            self.player.is_second() and 
-            self.player.is_experimental() and 
-            self.player.is_halftime() and
-            self.player.has_terminated() )
 
-
+@DisplayAt(HasNotTerminated)
 class Wait_Trials_SP(SoMiPu_Wait):
     def is_displayed(self):
         return self.player.has_not_terminated()
 
 
+@DisplayAt(ConditionExp)
+@DisplayAt(OnlyFirstPlayer)
 class Exp_FB(SoMiPu_MainTrial):
     form_model = models.Player
     template_name = "SoMiPu/Experimental_Feedback_FirstPlayer.html"
@@ -339,25 +349,22 @@ class Exp_FB(SoMiPu_MainTrial):
         return ret
 
     def is_displayed(self):
-        self.player.check_consistency()
         return (
-            self.player.is_first() and 
-            self.player.is_experimental() and
+            super(Exp_FB,self).is_displayed() and
             (self.player.before_halftime() or self.player.has_not_terminated()) )
 
 
-class CB1_AP (Page):
+@DisplayAt(OnlyFullTime)
+class CB1_AP (SoMiPu_Page):
     template_name = "SoMiPu/Checkbox1_AllPlayers.html"
     form_model = models.Player
     
     def get_form_fields(self):
         return ['overall_fb_cb1', 'overall_fb_cb2','overall_fb_cb3', 'overall_fb_cb4','overall_fb_cb5', 'overall_fb_cb6']
     
-    def is_displayed(self):
-        self.player.check_consistency()
-        return self.player.is_fulltime()
 
-class CB2_AP(Page):
+@DisplayAt(OnlyFullTime)
+class CB2_AP(SoMiPu_Page):
     template_name = "SoMiPu/Checkbox2_AllPlayers.html"
     form_model = models.Player
     form_fields = ['overall_fb_tx1', 'overall_fb_tx2', 'overall_fb_tx3']
@@ -365,18 +372,16 @@ class CB2_AP(Page):
     def vars_for_template(self):
         return {"role": self.player.role()}
 
-    def is_displayed(self):
-        return self.player.is_fulltime()
 
-class A_PersonalData(Page):
+@DisplayAt(OnlyFullTime)
+class A_PersonalData(SoMiPu_Page):
     form_model = models.Player
     def get_form_fields(self):
         return ['participant_sex', 'participant_age', 'participant_lang_skills']
 
-    def is_displayed(self):
-        return self.player.is_fulltime()
 
-class LastPage (Page):
+@DisplayAt(OnlyFullTime)
+class LastPage (SoMiPu_Page):
     def vars_for_template(self):
         # Additional 2 Euro if this page is reached without termination
         if self.player.has_not_terminated():
@@ -385,9 +390,6 @@ class LastPage (Page):
             "payoff":           self.participant.payoff,
             "condition":        self.player.condition()
          }
-
-    def is_displayed(self):
-        return self.player.is_fulltime()
 
 
 
