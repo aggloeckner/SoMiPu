@@ -3,32 +3,32 @@
 
     <div id="smilies">
 
-        <table style="border:0;">
+        <table>
             <tr>
                 <td colspan="5">
-                    <img style="padding-left:16px;padding-right:17px" src="{% get_static_prefix %}{{ smilyImgUrl }}" width="{{ smilyListWidth }}"/>
+                    <img class="smily-img" src="{% get_static_prefix %}{{ smilyImgUrl }}"/>
                 </td>
             </tr>
             <tr>
-                <td align="center">
+                <td class="smily-box">
                     <input type="checkbox" id="cbs1" name="{{ smilyName }}" value="1"/>
                 </td>
-                <td align="center">
+                <td class="smily-box">
                     <input type="checkbox" id="cbs2" name="{{ smilyName }}" value="2"/>
                 </td>
-                <td align="center">
+                <td class="smily-box">
                     <input type="checkbox" id="cbs3" name="{{ smilyName }}" value="3"/>
                 </td>
-                <td align="center">
+                <td class="smily-box">
                     <input type="checkbox" id="cbs4" name="{{ smilyName }}" value="4"/>
                 </td>
-                <td align="center">
+                <td class="smily-box">
                     <input type="checkbox" id="cbs5" name="{{ smilyName }}" value="5"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="5" style="height:40px">
-                    <div id="smilyMsg" style="display:none; background-color:Yellow; text-align:center">
+                <td colspan="5" id="smilies-error">
+                    <div id="smilyMsg" class="error">
                         <p>Bitte wählen Sie einen der Smilies aus.</p>
                     </div>
                 </td>
@@ -38,7 +38,7 @@
     </div>
 
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function(){
             try {
 	            showSmily("smilies", "{{ smilyFeedback }}");

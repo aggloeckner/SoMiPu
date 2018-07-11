@@ -5,6 +5,10 @@
     Vielen Dank für Ihre Teilnahme
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
 
     <p>
@@ -31,7 +35,7 @@
         kontaktieren: dorothee.mischkowski@fernuni-hagen.de<br><br>
         Erneut herzlichen Dank für Ihre Unterstützung unserer Forschung!<br><br>
 
-        <span style="font-style: italic">Alle Angaben wurden gespeichert. Sie können das Browser-Fenster nun schließen.</span>
+        <em>Alle Angaben wurden gespeichert. Sie können das Browser-Fenster nun schließen.</em>
     </p>
 
 {% endblock %}

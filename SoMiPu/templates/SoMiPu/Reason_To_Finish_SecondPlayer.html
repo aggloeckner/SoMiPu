@@ -1,44 +1,25 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <!--Diese Seite wird dem Second Chooser der Experimentalgruppe nur dann angezeigt, wenn er die Interaktion beendet hat.-->
 
 
-    <style type="text/css">
-        label {
-            font-weight: normal;
-            width: 100%;
-        }
-
-        .content-box {
-            width: 50%;
-        }
-
-        textarea {
-            max-width: 100%;
-            min-width: 160px;
-            min-height: 20px;
-            padding: 3px 5px;
-            border-radius: 5px;
-        }
-
-        .right {
-            float: right;
-        }
-    </style>
 
     <p>
     <strong>Sie haben sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Uns interessiert, welche Gründe
     Sie hierzu bewogen haben? Das nachfolgende Textfeld bietet Ihnen die Gelegenheit uns diese mitzuteilen.</strong>
     </p><br><br><br>
-
-    <div align="center">
-
-    <textarea rows="4" cols="100" name="reason_to_finish">
-    </textarea>
-
+    
+    <div class="centered-formbox">
+        <div id="rtf-textarea">
+            {% formfield player.reason_to_finish label=""%}
+        </div>
     </div>
 
     <br><br><br>

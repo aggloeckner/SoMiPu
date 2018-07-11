@@ -1,24 +1,30 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree %}
 
-    {% block content %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
 
-    Vielen Dank für Ihre Auswahlentscheidungen! Damit ist ein großer Teil der Studie geschafft! <br>Im Folgenden bitten
-    wir Sie, uns auf den kommenden Seiten noch wenige Fragen zu beantworten.
+{% block content %}
+    <p>
+        Vielen Dank für Ihre Auswahlentscheidungen! Damit ist ein großer Teil der Studie geschafft! <br>Im Folgenden bitten
+        wir Sie, uns auf den kommenden Seiten noch wenige Fragen zu beantworten.
+    </p>
 
     <!--CB = Checkbox; 'Qualitätskontrolle' - Alle Spieler nach den Trials-->
 
     <br>
-    <p>
     <h2>Fragen zur Teilnahme</h2>
     <br>
-    Da die in dieser Studie generierten Daten für wissenschaftliche Zwecke genutzt werden sollen, ist die
-    Frage der Datenqualität für uns von besonderem Interesse. Daher bitten wir Sie um eine ehrliche Auskunft darüber,
-    wie gewissenhaft Sie diese Studie bearbeitet haben. Nur wenn eine gute Qualität sichergestellt ist, können wir
-    die Daten in die Auswertung aufnehmen. Deswegen möchten wir Sie bitten, die folgenden Fragen möglichst offen und
-    ehrlich zu beantworten. Ihre Antworten haben keinerlei Auswirkungen auf Ihre Vergütung in dieser Studie.<br><br>
+    <p>
+        Da die in dieser Studie generierten Daten für wissenschaftliche Zwecke genutzt werden sollen, ist die
+        Frage der Datenqualität für uns von besonderem Interesse. Daher bitten wir Sie um eine ehrliche Auskunft darüber,
+        wie gewissenhaft Sie diese Studie bearbeitet haben. Nur wenn eine gute Qualität sichergestellt ist, können wir
+        die Daten in die Auswertung aufnehmen. Deswegen möchten wir Sie bitten, die folgenden Fragen möglichst offen und
+        ehrlich zu beantworten. Ihre Antworten haben keinerlei Auswirkungen auf Ihre Vergütung in dieser Studie.
+    </p><br>
 
-    <span style="font-style: italic">Markieren Sie bitte die Aussagen, denen Sie zustimmen.</span><br><br>
+    <em>Markieren Sie bitte die Aussagen, denen Sie zustimmen.</em><br><br>
 
     Ich habe...<br><br>
 
@@ -43,7 +49,7 @@
 
     Wenn Sie alle Fragen beantwortet haben, wählen Sie bitte "weiter".
 
-    </p><br>
+    <br>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 

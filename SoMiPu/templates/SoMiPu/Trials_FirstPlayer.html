@@ -1,17 +1,18 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
 
     <p>Welches dieser Objekte würden Sie nehmen? Sie wählen zuerst, dann die andere Person!</p>
 
     <br><br>
 
-    <div align="center">
-
     {% include "SoMiPu/Choice.html" %}
 
-    </div>
 
     <br>
 
@@ -34,7 +35,7 @@
     <br><br><br>
 
     Um fortzufahren, wählen Sie bitte "weiter".
-    <br><br></p>
+    <br><br>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 

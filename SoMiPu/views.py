@@ -9,8 +9,6 @@ import random
 
 # Global variables for design
 
-IMG_WIDTH           = 100
-IMG_COLUMN_WIDTH    = 210
 SMILEY_IMG_URL      = "img/SoMiPu/Smiley-Skala.png"
 SMILEY_LIST_WIDTH   = 500
 
@@ -24,8 +22,6 @@ class SoMiPu_Trial(Page):
             "role"              : self.player.role(),
             "smilyImgUrl"       : SMILEY_IMG_URL,
             "smilyListWidth"    : SMILEY_LIST_WIDTH,
-            "choiceColumnWidth" : IMG_COLUMN_WIDTH,
-            "choiceWidth"       : IMG_WIDTH,
             "feedback"          : False }
 
         return ret

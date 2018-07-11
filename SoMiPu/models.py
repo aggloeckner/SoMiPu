@@ -117,7 +117,9 @@ class Player(BasePlayer):
 
     # Overall Feedback (Gründe die Interaktion zu beenden)
 
-    reason_to_finish = models.CharField(blank=True)
+    reason_to_finish = models.CharField(
+        blank=True, 
+        widget=widgets.Textarea(attrs={'rows': 4, 'cols': 100}))
 
     # Feedback (Checkboxen)
     overall_fb_cb1 = models.CharField(blank=True)
@@ -128,9 +130,15 @@ class Player(BasePlayer):
     overall_fb_cb6 = models.CharField(blank=True)
 
     # Feedback Textfelder
-    overall_fb_tx1 = models.CharField(blank=True)
-    overall_fb_tx2 = models.CharField(blank=True)
-    overall_fb_tx3 = models.CharField(blank=True)
+    overall_fb_tx1 = models.CharField(
+        blank=True,
+        widget=widgets.Textarea(attrs={'rows': 4, 'cols': 100}))
+    overall_fb_tx2 = models.CharField(
+        blank=True,
+        widget=widgets.Textarea(attrs={'rows': 4, 'cols': 100}))
+    overall_fb_tx3 = models.CharField(
+        blank=True,
+        widget=widgets.Textarea(attrs={'rows': 4, 'cols': 100}))
 
     # Persoenliche Angaben
 

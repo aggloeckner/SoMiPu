@@ -1,6 +1,11 @@
 {% extends 'SoMiPu/GroupingWaitPage.html' %}
 {% load staticfiles otree %}
 {% block title %}{{ title_text }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
     <p>
         <h3>Bitte warten Sie ...</h3>

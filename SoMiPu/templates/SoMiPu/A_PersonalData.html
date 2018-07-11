@@ -5,19 +5,41 @@
     Angaben zu Ihrer Person
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
 
     <div class="content-box">
         <p>Zuletzt möchten wir Sie noch um einige Angaben zu Ihrer Person bitten.</p>
         <br><br>
         {% formfield player.participant_sex label="Ihr Geschlecht:" %}
+        <div id="participant_sex_error" class="error">
+            Bitte wählen Sie!
+        </div>
+        <br>
         {% formfield player.participant_age label="Ihr Alter:" %}
+        <br>
         {% formfield player.participant_lang_skills label="Ihre Deutschkenntnisse:" %}
+        <div id="participant_lang_skills_error" class="error">
+            Bitte wählen Sie!
+        </div>
         <br><br>
         <p>Wenn Sie alle Fragen beantwortet haben, wählen Sie bitte "weiter".</p>
         <br>
         <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 
     </div>
+
+    <script>
+        $(".form-group input").on("invalid", function(event){
+            ef = $("#" + event.currentTarget.name + "_error");
+            if(ef.length == 1) {
+                $("#" + event.currentTarget.name + "_error").show();
+                return false;
+            }
+        });
+    </script>
 
 {% endblock %}

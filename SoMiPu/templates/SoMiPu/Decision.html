@@ -5,13 +5,18 @@
    Entscheidungsaufgabe
 {% endblock %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
+
 {% block content %}
     <br>
     <p>
-    Sie werden gleich mehrere Runden einer Entscheidungsaufgabe bearbeiten, in die Sie selbst und eine weitere Person
-    einbezogen sind. <strong>Stellen Sie sich bitte vor,</strong> dass Sie diese <strong>andere Person noch nie
-    getroffen haben</strong> und ihr auch <strong>in Zukunft nicht wissentlich begegnen</strong> werden (weil Sie und die andere
-    Person sich nicht persönlich kennenlernen oder sehen werden).<br><br>
+        Sie werden gleich mehrere Runden einer Entscheidungsaufgabe bearbeiten, in die Sie selbst und eine weitere Person
+        einbezogen sind. <strong>Stellen Sie sich bitte vor,</strong> dass Sie diese <strong>andere Person noch nie
+        getroffen haben</strong> und ihr auch <strong>in Zukunft nicht wissentlich begegnen</strong> werden (weil Sie und die andere
+        Person sich nicht persönlich kennenlernen oder sehen werden).
+    </p><br>
 
     In jeder Runde der Aufgabe werden Ihnen mehrere Objekte gezeigt. Sie und Ihr Gegenüber können <strong>jeweils eines
     </strong> der im Folgenden gezeigten <strong>Objekte wählen.</strong> 
@@ -23,7 +28,7 @@
         <br><br>
         {% if condition == 'experimental' %}
             <p>
-            <span style="color:red;font-weight:bold;">Bitte beachten Sie auch:</span>
+            <span class="important">Bitte beachten Sie auch:</span>
             </p>
 
             <strong>Nachdem Sie Ihre Wahl getroffen</strong> haben, <strong>wählt die andere Person</strong> aus den verbliebenen
@@ -39,9 +44,10 @@
         Es ist wichtig zu beachten, dass Sie <strong>
         immer an zweiter Stelle</strong> wählen und dass das von der anderen Person zuerst gewählte Objekt für Sie dann
         <strong>nicht mehr verfügbar</strong> ist.
+        <br><br>
 
         <p>
-        <span style="color:red;font-weight:bold;">Bitte beachten Sie auch:</span>
+        <span class="important">Bitte beachten Sie auch:</span>
         </p>
 
         <strong>Nachdem Ihr Gegenüber seine Wahl</strong> getroffen hat, <strong>wählen Sie im Anschluss</strong> zwischen den
@@ -63,11 +69,11 @@
             <strong>Nach der Hälfte der Studie</strong> können Sie darüber entscheiden, <strong>ob die andere Person
             weiter </strong>zwischen den Gegenständen <strong>auswählen kann</strong> und Sie wie zuvor selbst nach ihr auswählen
             oder ob Sie an dieser Stelle die <strong>Interaktion beenden</strong> möchten, sodass <strong>keiner von Ihnen</strong>
-            mehr ein Objekt auswählen kann. <strong> 
+            mehr ein Objekt auswählen kann.
         {% endif %}
     {% endif %}
     {% if condition == 'experimental' %}
-        Abhängig von dieser Entscheidung</strong> werden <strong>Sie beide bei
+        <strong>Abhängig von dieser Entscheidung</strong> werden <strong>Sie beide bei
         Fortsetzung </strong>der Interaktion einen Betrag von jeweils <strong>4€</strong> für Ihre Teilnahme und <strong>bei
         deren Beendigung</strong> von jeweils <strong>2€ </strong>erhalten.
     {% else %}
@@ -79,7 +85,7 @@
 
     Um fortzufahren, wählen Sie bitte "weiter".
 
-    <br></p>
+    <br>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 

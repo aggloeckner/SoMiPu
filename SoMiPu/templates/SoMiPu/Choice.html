@@ -3,33 +3,33 @@
 
     <div id="choice">
 
-        <table style="border:0;">
+        <table>
             <tr >
-                <td width="{{ choiceColumnWidth }}" align="center">
-                    <img checkId="{{ choiceList.0.id }}" src="{% get_static_prefix %}{{ choiceList.0.url }}" width="{{ choiceWidth }}"/>
+                <td>
+                    <img checkId="{{ choiceList.0.id }}" src="{% get_static_prefix %}{{ choiceList.0.url }}"/>
                 </td>
-                <td width="{{ choiceColumnWidth }}" align="center">
-                    <img checkId="{{ choiceList.1.id }}" src="{% get_static_prefix %}{{ choiceList.1.url }}" width="{{ choiceWidth }}"/>
+                <td>
+                    <img checkId="{{ choiceList.1.id }}" src="{% get_static_prefix %}{{ choiceList.1.url }}"/>
                 </td>
-                <td width="{{ choiceColumnWidth }}" align="center">
-                    <img checkId="{{ choiceList.2.id }}" src="{% get_static_prefix %}{{ choiceList.2.url }}" width="{{ choiceWidth }}"/>
+                <td>
+                    <img checkId="{{ choiceList.2.id }}" src="{% get_static_prefix %}{{ choiceList.2.url }}"/>
                 </td>
             </tr>
             <tr>
-                <td align="center">
+                <td>
                     <input type="checkbox" id="{{ choiceList.0.id }}" name="{{ choiceName }}" value="{{ choiceList.0.value }}"/>
                 </td>
-                <td align="center">
+                <td>
                     <input type="checkbox" id="{{ choiceList.1.id }}" name="{{ choiceName }}" value="{{ choiceList.1.value }}"/>
                 </td>
-                <td align="center">
+                <td>
                     <input type="checkbox" id="{{ choiceList.2.id }}" name="{{ choiceName }}" value="{{ choiceList.2.value }}"/>
                 </td>
             </tr>
             {% if not feedback %}
                 <tr>
-                    <td colspan="3" style="height:40px">
-                        <div id="choiceMsg" style="display:none; background-color:Yellow; text-align:center">
+                    <td colspan="3" id="choice-error">
+                        <div id="choiceMsg" class="error">
                             <p>Bitte wählen Sie eines der drei Objekte aus.</p>
                         </div>
                     </td>
@@ -42,17 +42,17 @@
         <input type="hidden" name="firstChoice" value="{{ firstChoice }}"/>
         <input type="hidden" name="secondChoice" value=""/>
 
-        <script type="text/javascript">
+        <script>
             $(document).ready(function(){
     	        showChoice("choice", "{{ firstChoice }}");
     	    });
 
         </script>
     {% else %}
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    showChoiceLeft("choice", "{{ firstChoice }}", "{{ secondChoice }}");
-                });
+        <script>
+            $(document).ready(function(){
+                showChoiceLeft("choice", "{{ firstChoice }}", "{{ secondChoice }}");
+            });
 
-            </script>
+        </script>
     {% endif %}

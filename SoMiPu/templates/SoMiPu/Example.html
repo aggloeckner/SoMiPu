@@ -6,11 +6,14 @@
    Entscheidungsaufgabe
 {% endblock %}
 
-{% block content %}
-    <p>
-    <strong>Hier ein Beispiel:</strong><br><br>
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
+{% endblock %}
 
-    Unten abgebildet sehen Sie drei Objekte. Welches dieser Objekte würden Sie wählen? <br>
+{% block content %}
+    <h5> Hier ein Beispiel:</h5>
+
+    <p>Unten abgebildet sehen Sie drei Objekte. Welches dieser Objekte würden Sie wählen? </p>
     {% if role == "FirstChooser" %}
         Denken Sie daran, dass Sie zuerst ein Objekt auswählen, dann die andere Person.
     {% else %}
@@ -22,16 +25,8 @@
 
     <br><br>
 
-    <div align="center">
 
     {% include "SoMiPu/Choice.html" %}
-
-    {% if role == "SecondChooser" %}
-        <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
-    {% endif %}
-
-    </div>
 
     <br>
     Treffen Sie Ihre Entscheidung durch Klicken auf das Objekt Ihrer Wahl (bzw. das Kästchen unterhalb des Objekts).
@@ -43,22 +38,23 @@
             Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
             empfinden</strong>. Hierzu markieren Sie mit einem Mausklick die Skala mit einem Kreuzchen an der Stelle, die Ihrer
             Empfindung am besten entspricht.
+        </p><br><br>
 
-            <br><br><br>
+            <script src="{% static 'js/SoMiPu/VAS/wz_dragdrop.js' %}"></script>
+            <script src="{% static 'js/SoMiPu/VAS/ratingscales.js' %}"></script>
 
-            <div id="vas_ff" align="center">
+            <div id="vas_ff" class="slider">
 
-                <script type="text/javascript">
+                <script>
                     scales.scale('example_fb_ff', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
                     ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['freundlich&nbsp;', '&nbsp;feindselig']);
                 </script><br>
-                <div id="vas_fb_ff" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+                <div id="vas_fb_ff" class="error">
                     <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
                 </div>
             </div>
 
             <br><br><br>
-        </p>
     {% endif %}
 
     {% if condition == 'experimental' %}
@@ -72,11 +68,8 @@
             Diese Information wird an Ihr Gegenüber weitergeleitet!
         {% endif %}
 
-        <div align="center">
-
         {% include "SoMiPu/Smilies.html" %}
 
-        </div>
     {% endif %}
 
 
@@ -84,19 +77,18 @@
         <p>
             In jedem zweiten Durchgang werden Sie dazu befragt, wie stark Ihr Wunsch ist, die <strong>Interaktion
             fortzusetzen oder zu beenden.</strong>.
-            <br><br><br>
+        </p><br><br>
 
-            <div id="vas_fb" align="center">
+            <div id="vas_fb" class="slider">
 
-                <script type="text/javascript">
+                <script>
                 scales.scale('example_fb_fb', 'click', 499, ['{% static 'img/SoMiPu/VAS/line10.gif'%}', 499, 17],
                 ['{% static 'img/SoMiPu/VAS/00.gif'%}'], ['fortsetzen&nbsp;', '&nbsp;beenden']);
                 </script><br>
-                <div id="vas_fb_fb" style="display:none; background-color:Yellow; text-align:center; width:500px;">
+                <div id="vas_fb_fb" class="error">
                     <p>Bitte markieren Sie die Skala mit einem Mausklick.</p>
                 </div>
             </div>
-        </p>
     {% endif %}
 
 
@@ -117,7 +109,7 @@
 
     <br><br><br>
     Um mit der eigentlichen Entscheidungsaufgabe zu beginnen, wählen Sie bitte "weiter".
-    <br><br></p>
+    <br><br>
 
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">weiter</button>
 
@@ -127,7 +119,7 @@
     {% endblock %}
 
     {% if role == "SecondChooser" %}
-        <script type="text/javascript">
+        <script>
             scales.init('value');
         </script>
     {% endif %}

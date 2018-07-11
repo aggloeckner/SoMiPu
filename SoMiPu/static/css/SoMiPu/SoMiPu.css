@@ -1,0 +1,179 @@
+/* 
+*
+* General Formatting
+*
+*/
+
+
+.important {
+	color: red;
+	font-weight: bold;
+}
+
+div.content-box {
+	width: 50%;
+}
+
+div.content-box .controls{
+	float: right;
+}
+
+div.content-box .form-group:after {
+	content: "";
+  	display: table;
+    clear: both;
+}
+
+
+/* 
+*
+* Choice fields
+*
+*/
+
+#choice {
+	margin: 0 auto;
+	display: table;
+}
+
+#choice table {
+	border:0;
+}
+
+#choice td {
+	width: 210px;
+	text-align: center;
+}
+
+#choice td img {
+	width: 100px;
+}
+
+#choice-error {
+	height: 40px;
+}
+
+
+/* 
+*
+* Smileys
+*
+*/
+
+#smilies {
+	margin: 0 auto;
+	display: table;
+}
+
+#smilies table {
+	border: 0;
+}
+
+#smilies .smily-img {
+	padding-left:16px;
+	padding-right:17px;
+	width: 500px;
+}
+
+#smilies .smily-box {
+	text-align: center;
+}
+
+#smilies-error {
+	height: 40px;
+}
+
+/* 
+*
+* Reasons to finish
+*
+*/
+
+#rtf-textarea textarea {
+    max-width: 100%;
+    min-width: 160px;
+    min-height: 20px;
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+
+/* 
+*
+* Overall Feedback
+*
+*/
+
+#overall-fb textarea {
+	max-width: 100%;
+	min-width: 160px;
+	min-height: 20px;
+	padding: 3px 5px;
+	border-radius: 5px;
+}
+
+/* 
+*
+* Halftime feedback
+*
+*/
+
+#halftime-ci {
+	display: table;
+	text-align: center;
+	margin: 0 auto;
+}
+
+/* 
+*
+* Slider
+*
+*/
+
+.slider {
+	margin: 0 auto;
+	display: table;
+	min-height: 100px;
+}
+
+.slider .error {
+	width: 500px;
+}
+
+/* 
+*
+* Forms
+*
+*/
+
+.bold-formheader .col-form-label{
+    font-weight:bold;
+}
+
+.wide-choices {
+	text-align: center;
+}
+
+.wide-choices .controls label{
+    margin-left: 5em;
+    margin-right: 5em;
+}
+
+.centered-formbox {
+    margin: 0 auto;
+    display: table;
+}
+
+/* 
+*
+* Form Errors
+*
+*/
+
+form .error {
+	display:none; 
+	background-color:Yellow; 
+	text-align:center; 
+	width:100%;
+	margin: 0 auto;
+}
+

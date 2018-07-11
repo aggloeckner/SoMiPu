@@ -2,43 +2,27 @@
 {% load staticfiles otree %}
 
 {% block styles %}
-    <style type="text/css">
-        .bold-formheader .col-form-label{
-            font-weight:bold;
-        }
-
-        .wide-choices .controls label{
-            margin-left: 5em;
-            margin-right: 5em;
-        }
-
-        #wide-formbox {
-            margin: 0 auto;
-            text-align: center;
-            width: 70%;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/SoMiPu/SoMiPu.css' %}">
 {% endblock %}
 
 {% block content %}
 
-     <!--Experimentalgruppe - Trial 12 - Exclusionary Threat - Second Chooser-->
+    <p>
+         Sie haben an dieser Stelle die Gelegenheit <strong>die Interaktion fortzusetzen oder zu beenden.</strong><br><br>
+         Wenn Sie die <strong>Interaktion abbrechen, nehmen Sie</strong> damit der anderen Person <strong>die Möglichkeit,</strong>
+         weitere <strong>Gegenstände auszuwählen</strong> und <strong>reduzieren den Betrag,</strong> den sie ausgezahlt bekommt
+         <strong>auf 2€</strong>. Sie haben <strong>selbst</strong> dann auch <strong>keine Möglichkeit</strong> mehr,
+         weitere <strong>Gegenstände zu wählen</strong> und <strong>erhalten ebenfalls nur 2€</strong>.<br><br>
+         Entscheiden Sie sich die <strong>Interaktion fortzusetzen</strong>, dann wird die andere Person zuerst und Sie nach
+         ihr <strong>Gegenstände auswählen</strong> können. <strong>Sie erhalten beide </strong>für Ihre Teilnahme <strong>
+         jeweils 4€</strong>. 
+    </p><br><br>
 
-     <p>Sie haben an dieser Stelle die Gelegenheit <strong>die Interaktion fortzusetzen oder zu beenden.</strong><br><br>
-     Wenn Sie die <strong>Interaktion abbrechen, nehmen Sie</strong> damit der anderen Person <strong>die Möglichkeit,</strong>
-     weitere <strong>Gegenstände auszuwählen</strong> und <strong>reduzieren den Betrag,</strong> den sie ausgezahlt bekommt
-     <strong>auf 2€</strong>. Sie haben <strong>selbst</strong> dann auch <strong>keine Möglichkeit</strong> mehr,
-     weitere <strong>Gegenstände zu wählen</strong> und <strong>erhalten ebenfalls nur 2€</strong>.<br><br>
-     Entscheiden Sie sich die <strong>Interaktion fortzusetzen</strong>, dann wird die andere Person zuerst und Sie nach
-     ihr <strong>Gegenstände auswählen</strong> können. <strong>Sie erhalten beide </strong>für Ihre Teilnahme <strong>
-     jeweils 4€</strong>. <br><br>
-
-     </p><br>
-    <div id="wide-formbox">
+    <div class="centered-formbox">
         <div class="wide-choices">
             <div class="bold-formheader">
                     {% formfield player.terminate_interaction label="Wie entscheiden Sie sich?"%}
-                <div id="terminate_interaction_error" class="error" align="center" style="display:none; background-color:Yellow; text-align:center; width:100%;">
+                <div id="terminate_interaction_error" class="error">
                     Bitte wählen Sie!
                 </div>
             </div>
