@@ -14,6 +14,3 @@ Procfile
 README.md
 _static/
 _templates/
-manage.py
-requirements.txt
-requirements_base.txt
