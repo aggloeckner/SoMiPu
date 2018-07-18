@@ -23,9 +23,11 @@
 
     <br><br><br>
     {% if hasTerminated %}
-        Die andere Person hat sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Vielen Dank für Ihre bisherigen
-        Angaben und die Unterstützung unserer Forschung! Damit ist die Bearbeitung der Entscheidungsaufgabe abgeschlossen.
-        <br><br>
+        <div id="hasTerminated">
+            Die andere Person hat sich dafür entschieden die Interaktion an dieser Stelle zu beenden. Vielen Dank für Ihre bisherigen
+            Angaben und die Unterstützung unserer Forschung! Damit ist die Bearbeitung der Entscheidungsaufgabe abgeschlossen.
+            <br><br>
+        </div>
         Im Folgenden bitten wir Sie <strong>noch einige wenige Fragen </strong>zu Ihrer Person zu <strong> beantworten</strong>.
         <br><br>
 
@@ -40,9 +42,11 @@
         {% else %}
 
             {% if ExclusionaryThreat %}
-                Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
-                Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
-                <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.<br><br>
+                <div id="ExclusionaryThreat">
+                    Die andere Person entscheidet außerdem nach der Hälfte der Studie darüber, <strong>ob Sie weiter zwischen den
+                    Gegenständen auswählen</strong> können, um nach Ihnen auszuwählen <strong>oder</strong> an dieser Stelle die
+                    <strong>Interaktion zu beenden,</strong> sodass keiner von Ihnen mehr ein Objekt auswählen kann.<br><br>
+                </div>
             {% endif %}
 
         {% endif %}

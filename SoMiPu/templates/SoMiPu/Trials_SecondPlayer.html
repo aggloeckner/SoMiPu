@@ -68,11 +68,13 @@
         <br><br>
         {% if condition == "experimental" %}
             {% if ExclusionaryThreat %}
-                Sie entscheiden außerdem nach der Hälfte der Studie darüber, <strong>ob</strong> die andere Person <strong>
-                weiter zwischen den Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen <strong>oder</strong> an
-                dieser Stelle die <strong>Interaktion zu beenden,</strong> sodass <strong>keiner</strong> von Ihnen mehr ein Objekt
-                auswählen kann.
-                <br><br>
+                <div id="ExclusionaryThreat">
+                    Sie entscheiden außerdem nach der Hälfte der Studie darüber, <strong>ob</strong> die andere Person <strong>
+                    weiter zwischen den Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen <strong>oder</strong> an
+                    dieser Stelle die <strong>Interaktion zu beenden,</strong> sodass <strong>keiner</strong> von Ihnen mehr ein Objekt
+                    auswählen kann.
+                    <br><br>
+                </div>
             {% endif %}
         {% endif %}
     {% endif %}

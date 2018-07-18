@@ -142,6 +142,57 @@ class SoMiPu_MainTrial(SoMiPu_Trial):
 
         return ret
 
+    def firstChoice_error_message(self, value):
+        trial  = self.player.get_trial()
+        stid   = trial["Trial"]
+        repeat = self.player.repeat_name()
+
+        choices = ["item_{}{}_{}".format(stid, repeat, i) for i in [1,2,3]]
+        if not value in choices:
+            return """
+                Es ist ein Fehler aufgetreten!\n
+                Auswahl {} ist keine verfügbare Auswahl.\n
+                Bitte melden Sie sich beim Versuchsleiter!""".format(value)
+
+    def secondChoice_error_message(self, value):
+        trial  = self.player.get_trial()
+        stid   = trial["Trial"]
+        repeat = self.player.repeat_name()
+
+        choices = ["item_{}{}_{}".format(stid, repeat, i) for i in [1,2,3]]
+        if not value in choices:
+            return """
+                Es ist ein Fehler aufgetreten!\n
+                Auswahl {} ist keine verfügbare Auswahl.\n
+                Bitte melden Sie sich beim Versuchsleiter!""".format(value)
+
+        if value == self.player.get_firstchoice():
+            return """
+                Es ist ein Fehler aufgetreten!\n
+                Auswahl {} wurde bereits gewählt.\n
+                Bitte melden Sie sich beim Versuchsleiter!""".format(value)
+
+
+    def choice_error_message(self, value):
+        trial  = self.player.get_trial()
+        stid   = trial["Trial"]
+        repeat = self.player.repeat_name()
+
+        if value not in ["single", "double"]:
+            return """
+                Es ist ein Fehler aufgetreten!\n
+                Auswahl {} ist kein verfügbarer Auswahltyp.\n
+                Bitte melden Sie sich beim Versuchsleiter!""".format(value)
+
+        if self.player.is_second() and value == "single" and self.player.get_fp().choice == "single":
+            return """
+                Es ist ein Fehler aufgetreten!\n
+                Auswahltyp bereits vom ersten Spieler gewählt.\n
+                Bitte melden Sie sich beim Versuchsleiter!"""
+
+
+        
+
 class SoMiPu_Wait(WaitPage):
     template_name = "SoMiPu/WaitPage.html"
 

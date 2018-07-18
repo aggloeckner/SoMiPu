@@ -34,10 +34,12 @@
             <strong>Nachdem Sie Ihre Wahl getroffen</strong> haben, <strong>wählt die andere Person</strong> aus den verbliebenen
             Objekten und <strong>gibt Ihnen unmittelbar Rückmeldung</strong> darüber, wie sie Ihre Entscheidung wahrnimmt.
             <br><br>
-            Die andere Person kann außerdem nach der Hälfte der Studie darüber entscheiden, ob Sie <strong>weiter zwischen den
-            Gegenständen auswählen</strong> können, um selbst nach Ihnen auszuwählen <strong>oder es bevorzugt,</strong>
-            an dieser Stelle die <strong>Interaktion für Sie beide zu beenden</strong>, sodass <strong>keiner</strong> von Ihnen
-            beiden mehr ein Objekt auswählen kann.
+            <div id="ExclusionaryThreat">
+                Die andere Person kann außerdem nach der Hälfte der Studie darüber entscheiden, ob Sie <strong>weiter zwischen den
+                Gegenständen auswählen</strong> können, um selbst nach Ihnen auszuwählen <strong>oder es bevorzugt,</strong>
+                an dieser Stelle die <strong>Interaktion für Sie beide zu beenden</strong>, sodass <strong>keiner</strong> von Ihnen
+                beiden mehr ein Objekt auswählen kann.
+            </div>
         {% endif %}
 
     {% else %}
@@ -66,10 +68,12 @@
         ist, die <strong>Interaktion fortzusetzen oder zu beenden.</strong><br><br>
 
         {% if condition == 'experimental' %}
-            <strong>Nach der Hälfte der Studie</strong> können Sie darüber entscheiden, <strong>ob die andere Person
-            weiter </strong>zwischen den Gegenständen <strong>auswählen kann</strong> und Sie wie zuvor selbst nach ihr auswählen
-            oder ob Sie an dieser Stelle die <strong>Interaktion beenden</strong> möchten, sodass <strong>keiner von Ihnen</strong>
-            mehr ein Objekt auswählen kann.
+            <div id="ExclusionaryThreat">
+                <strong>Nach der Hälfte der Studie</strong> können Sie darüber entscheiden, <strong>ob die andere Person
+                weiter </strong>zwischen den Gegenständen <strong>auswählen kann</strong> und Sie wie zuvor selbst nach ihr auswählen
+                oder ob Sie an dieser Stelle die <strong>Interaktion beenden</strong> möchten, sodass <strong>keiner von Ihnen</strong>
+                mehr ein Objekt auswählen kann.
+            </div>
         {% endif %}
     {% endif %}
     {% if condition == 'experimental' %}

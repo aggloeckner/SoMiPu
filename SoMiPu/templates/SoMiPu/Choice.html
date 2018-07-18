@@ -39,8 +39,10 @@
      </div>
 
     {% if not feedback %}
-        <input type="hidden" name="firstChoice" value="{{ firstChoice }}"/>
-        <input type="hidden" name="secondChoice" value=""/>
+        <div id="ChoiceDataForm">
+            <input type="hidden" name="firstChoice" value="{{ firstChoice }}"/>
+            <input type="hidden" name="secondChoice" value=""/>
+        </div>
 
         <script>
             $(document).ready(function(){
