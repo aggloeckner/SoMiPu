@@ -58,6 +58,9 @@ class Player(BasePlayer):
     # typ des gewählten items
     choice = models.CharField()
 
+    # Set when an error is detected during submission
+    error = models.BooleanField()
+
     # ID of the stimulus item
     stimulus = models.IntegerField()
 
