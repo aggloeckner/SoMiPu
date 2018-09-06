@@ -14,6 +14,8 @@ from django.utils.html import format_html
 
 SMILEY_IMG_URL      = "img/SoMiPu/Smiley-Skala.png"
 SMILEY_LIST_WIDTH   = 500
+INITIAL_PAYOFF      = c(4)
+FINAL_PAYOFF        = c(4)
 
 ############ Decorators   ###########
 
@@ -254,7 +256,9 @@ class Decision(SoMiPu_Page):
     def vars_for_template(self):
         return {
             "condition" : self.player.condition(),
-            "role"      : self.player.role()
+            "role"      : self.player.role(),
+            "initial_payoff" : INITIAL_PAYOFF,
+            "total_payoff"   : INITIAL_PAYOFF + FINAL_PAYOFF
         }
 
 
@@ -287,6 +291,8 @@ class Example(SoMiPu_Trial):
 
         ret["smilyName"] = "smily_example"
 
+        ret["initial_payoff"] = INITIAL_PAYOFF
+
         if self.player.is_second():
             ret["firstChoice"]   = "example0"
             ret["smilyFeedback"] = ""
@@ -299,7 +305,7 @@ class Example(SoMiPu_Trial):
     def before_next_page(self):
         # Initial payoff of 2 points for the experiment
         # 2 more points if the last page is reached
-        self.player.payoff = c(2)
+        self.player.payoff = INITIAL_PAYOFF
 
 @DisplayAt(HasNotTerminated)
 @DisplayAt(OnlyFirstPlayer)
@@ -359,6 +365,11 @@ class OFB_SP(SoMiPu_Trial):
 class HT_ExTh(Page):
     template_name = "SoMiPu/ExclusionaryThreat_SecondPlayer.html"
     form_model = models.Player
+
+    def vars_for_template(self):
+        return {
+            "initial_payoff"    :   INITIAL_PAYOFF,
+            "total_payoff"      :   INITIAL_PAYOFF + FINAL_PAYOFF }
 
     def get_form_fields(self):
         fields = ['terminate_interaction']
@@ -448,7 +459,7 @@ class LastPage (SoMiPu_Page):
     def vars_for_template(self):
         # Additional 2 Euro if this page is reached without termination
         if self.player.has_not_terminated():
-            self.player.payoff = c(2)
+            self.player.payoff = FINAL_PAYOFF
         return { 
             "payoff":           self.participant.payoff,
             "condition":        self.player.condition()

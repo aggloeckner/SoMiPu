@@ -32,7 +32,7 @@
     Treffen Sie Ihre Entscheidung durch Klicken auf das Objekt Ihrer Wahl (bzw. das Kästchen unterhalb des Objekts).
     <br><br><br>
     {% if role == "FirstChooser" %}
-        Zur Erinnerung:<strong>Sie sind zu zweit und Sie wählen immer zuerst. Die andere Person wählt nach Ihnen.</strong>
+        Zur Erinnerung: <strong>Sie sind zu zweit und Sie wählen immer zuerst. Die andere Person wählt nach Ihnen.</strong>
     {% else %}
         <p>
             Beurteilen Sie mittels der folgenden Skala <strong>wie freundlich vs. feindselig Sie das Verhalten Ihres Gegenübers
@@ -98,12 +98,12 @@
             <strong>Nach der Hälfte der Studie </strong>entscheidet die andere Person außerdem darüber, <strong>ob Sie weiter
             zwischen den Gegenständen auswählen</strong> können <strong>oder</strong> an dieser Stelle die <strong>Interaktion
             zu beenden</strong>, sodass <strong>keiner</strong> von Ihnen mehr ein Objekt auswählen kann. Hierdurch reduziert sich
-            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf 2€.
+            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf {{ initial_payoff }}.
         {% else %}
             Sie entscheiden außerdem nach der Hälfte der Studie darüber, ob die andere Person weiter <strong>zwischen den
             Gegenständen auswählen</strong> kann, um selbst nach ihr auszuwählen oder an dieser Stelle die <strong>Interaktion
             zu beenden</strong>, sodass keiner von Ihnen mehr ein Objekt auswählen kann. Hierdurch reduziert sich
-            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf 2€.
+            der Betrag, den Sie und ihr Gegenüber für Ihre Teilnahme erhalten auf {{ initial_payoff }}.
         {% endif %}
     {% endif %}
 

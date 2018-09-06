@@ -78,10 +78,11 @@
     {% endif %}
     {% if condition == 'experimental' %}
         <strong>Abhängig von dieser Entscheidung</strong> werden <strong>Sie beide bei
-        Fortsetzung </strong>der Interaktion einen Betrag von jeweils <strong>4€</strong> für Ihre Teilnahme und <strong>bei
-        deren Beendigung</strong> von jeweils <strong>2€ </strong>erhalten.
+        Fortsetzung </strong>der Interaktion einen Betrag von jeweils <strong>{{ total_payoff }}</strong> für Ihre Teilnahme und <strong>bei
+        deren Beendigung</strong> von jeweils <strong>{{ initial_payoff }}</strong> erhalten (zusätzlich zu Ihrer Auszahlung aus dem Onlinepart).
     {% else %}
-        Wenige Tage nach Beendigung der Studie werden Sie einen <strong>Festbetrag von 4€</strong> erhalten.
+        Unmittelbar im Anschluss an Ihre Teilnahme erhalten Sie einen <strong>Festbetrag von {{ total_payoff }}</strong> erhalten 
+        (zusätzlich zu Ihrer Auszahlung aus dem Onlinepart).
     {% endif %}
 
     

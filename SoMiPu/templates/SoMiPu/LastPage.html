@@ -14,15 +14,15 @@
     <p>
         Sie sind am Ende der Studie angekommen und haben alle Aufgaben erfolgreich bearbeitet.<br>
         <strong>Vielen herzlichen Dank für Ihre Teilnahme!</strong><br><br>
-        Sie erhalten Ihre Vergütung von {{ payoff }} zeitnah nach Beendigung der Studie.<br><br>
+        Sie erhalten Ihre Vergütung von {{ payoff }} (zzgl. Ihrer Auszahlung aus dem Onlinepart) nun unmittelbar ausbezahlt. Bitte wenden Sie
+        sich per Handzeichen an die Versuchsleitung<br><br>
         <strong>Zum Hintergrund der Studie:</strong><br>
         Sie haben soeben an einer Studie teilgenommen, die Bestandteil einer Untersuchungsreihe über Entscheidungen im
         ökonomischen Kontext ist.<br> Sie geht der Forschungsfrage nach, ob die Möglichkeit, eine Person von weiterer sozialer
         Interaktion auszuschließen, prosoziales Verhalten erhöht. Dies wird mit einer Kontrollgruppe ohne soziale
         Ausschlussmöglichkeit verglichen. 
         {% if condition == "experimental" %}
-            In der Studienbedingung, der Sie gerade zugeordnet waren, bestand eine solche Möglichkeit durch die
-            Entscheidung der anderen Person. 
+            In der Studienbedingung, der Sie gerade zugeordnet waren, bestand eine solche Möglichkeit. 
         {% else %}
             In der Studienbedingung, der Sie gerade zugeordnet waren, bestand eine solche Möglichkeit nicht. 
         {% endif %}
